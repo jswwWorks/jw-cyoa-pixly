@@ -1,0 +1,18 @@
+OBJECTIVE TRACKER FOR PIX.LY
+
+
+Tues, Jan 30, 2024
+1. TODO: get a basic html going
+2. TODO: research how to submit a file in a form
+    - double check how to submit a valid *photo* file in form
+3. TODO: research how to upload file to S3
+    - double check how to upload a *photo* file to S3
+
+
+4. TODO: research how to pull photo file from S3 (AJAX request to AWS S3 bucket)
+5. TODO: research how to show photo file from S3 on to HTML page
+    - will require getting exif data from image to get it's source text
+
+photos {
+    s3_url text                     <img src={{ s3_url }}>          <-- http://matts-pixly.s3.amazon.com
+}
