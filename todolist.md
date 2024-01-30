@@ -2,7 +2,7 @@ OBJECTIVE TRACKER FOR PIX.LY
 
 
 Tues, Jan 30, 2024
-1. TODO: get a basic html going
+1. get a basic html going - done!
 2. TODO: research how to submit a file in a form
     - double check how to submit a valid *photo* file in form
 3. TODO: research how to upload file to S3
