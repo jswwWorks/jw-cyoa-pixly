@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Upload an image!</h2>
+<form method="POST" enctype="multipart/form-data" action="{{ url_for('upload') }}">
+  <label for="photo">Upload a photo here: </label>
+  <input type="file" name="photo" id="photo">
+  <button type="submit">Upload</button>
+</form>
+{% endblock %}
+
+<!-- source for skeleton of form:
+https://stackoverflow.com/questions/73263202/how-to-display-uploaded-image-in-html-page-using-fastapi-jinja2 -->
