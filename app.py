@@ -20,10 +20,8 @@ app.config["UPLOADED_PHOTOS_DEST"] = "static/img"
 configure_uploads(app, photos)
 
 
-
-
 @app.route('/', methods=['GET'])
 def homepage():
     """Show homepage"""
 
-    return render_template('homepage.html')
+    return render_template('base.html')
