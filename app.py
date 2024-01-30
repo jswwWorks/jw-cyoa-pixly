@@ -7,6 +7,8 @@ import boto3
 
 AWS_ACCESS_KEY = os.environ['aws_access_key_id']
 AWS_SECRET_ACCESS_KEY = os.environ['aws_secret_access_key']
+BUCKET_NAME = os.environ['bucket_name']
+DATABASE_URL = os.environ['database_url']
 
 from flask import Flask, request, render_template, flash
 from flask_uploads import UploadSet, configure_uploads, IMAGES
