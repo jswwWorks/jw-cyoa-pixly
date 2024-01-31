@@ -56,7 +56,7 @@ s3 = boto3.client(
 def homepage():
     """Show homepage"""
 
-    # attempt to retrieve photo(s) from S3 to put on homepage
+    # TODO: attempt to retrieve photo(s) from S3 to put on homepage
 
 
 
