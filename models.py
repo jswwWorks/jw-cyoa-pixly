@@ -1,9 +1,21 @@
 """SQLAlchemy models for pixly app"""
 
-
 from datetime import datetime
 
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.exc import IntegrityError
+
 db = SQLAlchemy()
+
+def connect_db(app):
+    """Connect this database to provided Flask app.
+
+    You should call this in your Flask app.
+    """
+
+    app.app_context().push()
+    db.app = app
+    db.init_app(app)
 
 
 photos_metadata_colname_conversions = {
@@ -33,6 +45,8 @@ photos_metadata_colname_conversions = {
     "Interoperability InteroperabilityIndex": "interoperability_index",
     "Interoperability InteroperabilityVersion": "interoperability_version"
 }
+
+num_list = ["x_resolution", "y_resolution", "exposure_bias"]
 
 
 class Photo(db.Model):
@@ -174,20 +188,27 @@ class Photo(db.Model):
     )
 
     @classmethod
-    def submit_photo(**kwargs):
+    def submit_photo(self, metadata_tags):
 
-        print('This is **kwargs: ', kwargs)
+        print('This is metadata_tags: ', metadata_tags)
 
         # test print for keyword args passed into fn
-        for key, value in kwargs.items():
-            print("%s == %s" % (key, value))
+        # for key, value in args.items():
+        #     print("%s == %s" % (key, value))
 
 
         print('Before new photo')
-        new_photo = Photo(kwargs)
-        print('After new photo: ', new_photo)
+        try:
+            new_photo = Photo(**metadata_tags)
+            print('After new photo: ', new_photo)
+            print('new_photo.make: ', new_photo.make)
+        except IntegrityError:
+            print('error occurred', IntegrityError)
+
 
         db.session.add(new_photo)
+
+        db.session.commit()
 
         return new_photo
 
@@ -204,3 +225,4 @@ class Photo(db.Model):
 
         # db.session.add(user)
         # return user
+

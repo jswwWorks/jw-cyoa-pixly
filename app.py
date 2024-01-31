@@ -20,9 +20,18 @@ from flask import Flask, request, render_template, flash, redirect
 from flask_uploads import UploadSet, configure_uploads, IMAGES
 import exifread
 
+from models import photos_metadata_colname_conversions, Photo, connect_db
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['secret_key']
 
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+app.config['SQLALCHEMY_ECHO'] = False
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
+
+print('database url: ', os.environ['DATABASE_URL'])
+
+connect_db(app)
 
 # Virtual-hosted–style requests
 # https://<bucket-name>.s3.<region-code>.amazonaws.com/<key-name>
@@ -32,8 +41,6 @@ app.config['SECRET_KEY'] = os.environ['secret_key']
 # from werkzeug.datastructures import FileStorage
 
 # from flask_debugtoolbar import DebugToolbarExtension
-
-# from sqlalchemy.exc import IntegrityError <-- db, not needed right now
 
 # import exifread <-- how to read exif data from photo file
 
@@ -68,19 +75,19 @@ def homepage():
 
     # Source: https://stackoverflow.com/questions/44238525/how-to-iterate-over-files-in-an-s3-bucket
     paginator = s3.get_paginator('list_objects_v2')
-    print(paginator)
+    # print(paginator)
     page_iterator = paginator.paginate(Bucket=BUCKET_NAME)
-    print("page iterator", page_iterator)
+    # print("page iterator", page_iterator)
 
 
     photos_urls = []
 
     for page in page_iterator:
-        print("accessed a page")
+        # print("accessed a page")
         if page['KeyCount'] > 0:
             for file in page['Contents']:
-                print(file, "this is the file")
-                print(type(file))
+                # print(file, "this is the file")
+                # print(type(file))
                 # print("this is the file name:", file["Key"])
                 filename = file["Key"]
                 # filename = file.filename
@@ -103,7 +110,7 @@ def upload_photo():
         # checks for file type
         file = request.files['photo']
 
-        print('This is file: ', file)
+        # print('This is file: ', file)
         # after receiving valid photo file from form, we get a 'FileStorage'
         # object w/ methods and properties on it, most importantly, 'filename'.
         if file:
@@ -121,14 +128,36 @@ def upload_photo():
             # photo_file = open(file_path, 'rb')
 
             # return exif tags
-            print('Before tags')
+            # print('Before tags')
             tags = exifread.process_file(file)
-            print('After tags: ', tags)
+            # print('After tags: ', tags)
 
-            for tag in tags.keys():
-                if tag not in ('JPEGThumbnail', 'TIFFThumbnail', 'Filename', 'EXIF MakerNote'):
-                    print("Key: %s, value %s" % (tag, tags[tag]))
+            # for tag in tags.keys():
+            #     if tag not in ('JPEGThumbnail', 'TIFFThumbnail', 'Filename', 'EXIF MakerNote'):
+            #         print("Key: %s, value %s" % (tag, tags[tag]))
 
+            metadata_tags = {}
+
+            for key, value in tags.items():
+                if key not in metadata_tags and key in photos_metadata_colname_conversions:
+                    conversion = photos_metadata_colname_conversions[key]
+                    # print('This is conversion: ', conversion)
+
+                    metadata_tags[conversion] = value
+                    # print('metadata conversion for this entry', metadata_tags[conversion])
+
+
+
+            print('This is metadata tags', metadata_tags)
+            new_photo_in_db = Photo.submit_photo(metadata_tags)
+            print('new_photo_in_db: ', new_photo_in_db)
+
+
+
+            # if key in tags not in metadata_tags
+            # and also check that it's in photos_metadata_colname_conversions:
+            #     add key to metadata tags
+            #     but before that, convert it using photos_metadata_colname_conversions
 
 
 
