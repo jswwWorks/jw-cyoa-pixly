@@ -2,6 +2,9 @@ import os
 from dotenv import load_dotenv
 import requests
 
+# load environment variables from .env file
+load_dotenv()
+
 import boto3
 # s3 = boto3.resource('s3')
 
@@ -10,7 +13,7 @@ AWS_SECRET_ACCESS_KEY = os.environ['aws_secret_access_key']
 BUCKET_NAME = os.environ['bucket_name']
 # DATABASE_URL = os.environ['database_url']
 REGION_CODE = os.environ['region_code']
-# SECRET_KEY = os.environ['secret_key']
+SECRET_KEY = os.environ['secret_key']
 
 
 # Virtual-hosted–style requests
@@ -92,3 +95,19 @@ def homepage():
 #         flash("File uploaded successfully")
 
 #     flash("Method not allowed. Failed to upload file.")
+
+
+
+def upload():
+    print('In upload fn')
+
+    s3_client = boto3.client(
+        service_name='s3',
+        region_name=REGION_CODE,
+        aws_access_key_id=AWS_ACCESS_KEY,
+        aws_secret_access_key=AWS_SECRET_ACCESS_KEY
+    )
+
+    resp = s3_client.upload_file(LOCAL_FILE, BUCKET_NAME , NAME_FOR_S3)
+
+    print(f'upload file response: {resp}')
