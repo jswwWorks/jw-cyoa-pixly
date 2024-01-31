@@ -18,6 +18,7 @@ REGION_CODE = os.environ['region_code']
 
 from flask import Flask, request, render_template, flash, redirect
 from flask_uploads import UploadSet, configure_uploads, IMAGES
+import exifread
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['secret_key']
@@ -64,7 +65,6 @@ def homepage():
     """Show homepage"""
 
     print("in homepage route")
-    # TODO: attempt to retrieve photo(s) from S3 to put on homepage
 
     # Source: https://stackoverflow.com/questions/44238525/how-to-iterate-over-files-in-an-s3-bucket
     paginator = s3.get_paginator('list_objects_v2')
@@ -90,7 +90,11 @@ def homepage():
 
     # photo_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com/risotto.jpeg'
 
-    return render_template('base.html', photos_urls=photos)
+
+
+
+
+    return render_template('base.html', photos_urls=photos_urls)
 
 
 @app.route('/upload', methods=['GET', 'POST'])
@@ -98,9 +102,40 @@ def upload_photo():
     if request.method == 'POST':
         # checks for file type
         file = request.files['photo']
+
+        print('This is file: ', file)
         # after receiving valid photo file from form, we get a 'FileStorage'
         # object w/ methods and properties on it, most importantly, 'filename'.
         if file:
+
+
+# TODO: scaffolding code for extracting exif data from photos:
+# attribution for exifread: https://pypi.org/project/ExifRead/
+
+            # open image file for reading (must be in binary mode)
+            # TODO: need exact path name of file being uploaded
+
+            # file_path = os.path.abspath(file)
+            # print('This is file_path: ', file_path)
+
+            # photo_file = open(file_path, 'rb')
+
+            # return exif tags
+            print('Before tags')
+            tags = exifread.process_file(file)
+            print('After tags: ', tags)
+
+            for tag in tags.keys():
+                if tag not in ('JPEGThumbnail', 'TIFFThumbnail', 'Filename', 'EXIF MakerNote'):
+                    print("Key: %s, value %s" % (tag, tags[tag]))
+
+
+
+
+
+
+
+
             filename = file.filename
             upload_to_s3(file, filename)
             flash('File uploaded successfully!')
