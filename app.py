@@ -73,7 +73,7 @@ def homepage():
     print("page iterator", page_iterator)
 
 
-    photos = []
+    photos_urls = []
 
     for page in page_iterator:
         print("accessed a page")
@@ -85,12 +85,12 @@ def homepage():
                 filename = file["Key"]
                 # filename = file.filename
                 photo_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com/{filename}'
-                photos.append(photo_url)
+                photos_urls.append(photo_url)
 
 
     # photo_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com/risotto.jpeg'
 
-    return render_template('base.html', photos=photos)
+    return render_template('base.html', photos_urls=photos)
 
 
 @app.route('/upload', methods=['GET', 'POST'])
