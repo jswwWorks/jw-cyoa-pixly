@@ -63,14 +63,34 @@ s3 = boto3.client(
 def homepage():
     """Show homepage"""
 
+    print("in homepage route")
     # TODO: attempt to retrieve photo(s) from S3 to put on homepage
 
+    # Source: https://stackoverflow.com/questions/44238525/how-to-iterate-over-files-in-an-s3-bucket
+    paginator = s3.get_paginator('list_objects_v2')
+    print(paginator)
+    page_iterator = paginator.paginate(Bucket=BUCKET_NAME)
+    print("page iterator", page_iterator)
 
 
+    photos = []
 
-    photo_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com/chowder.jpeg'
+    for page in page_iterator:
+        print("accessed a page")
+        if page['KeyCount'] > 0:
+            for file in page['Contents']:
+                print(file, "this is the file")
+                print(type(file))
+                # print("this is the file name:", file["Key"])
+                filename = file["Key"]
+                # filename = file.filename
+                photo_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com/{filename}'
+                photos.append(photo_url)
 
-    return render_template('base.html', photo_url=photo_url)
+
+    # photo_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com/risotto.jpeg'
+
+    return render_template('base.html', photos=photos)
 
 
 @app.route('/upload', methods=['GET', 'POST'])

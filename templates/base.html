@@ -11,16 +11,16 @@
   <ul>
     <li>Upload images</li>
   </ul>
-  <img src="{{ photo_url }}"/>
+  <!-- <img src="{{ photo_url }}"/> -->
   <div class="image-upload-form">
     {% block content %}
     {% endblock %}
   </div>
-  <!-- <div class="image-storage">
-    {% for image in images %}
-      <img src={{ image.src }}/>
+  <div class="image-storage">
+    {% for photo_url in photos %}
+      <img src="{{ photo_url }}"/>
     {% endfor %}
-  </div> -->
+  </div>
   <!-- this will be the html for showing images eventually -->
 </body>
 </html>
