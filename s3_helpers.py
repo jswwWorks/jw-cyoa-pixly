@@ -41,9 +41,31 @@ def upload_to_s3(file, filename):
 
 
 
+def view_photos_from_s3():
+    print('In view_photos_from_s3')
+
+
+
+
+# TODO: 1. view objects in bucket
+        # 2. loop through objects in bucket
+        # 3. per object in bucket, get the file and img src property
+        # 4. render_template with "photo=photo_object" in def homepage()
+
+
+
+
+
 # for testing individual file
 # if __name__ == '__main__':
 #     upload_to_s3()
+
+
+
+
+
+
+
 
 
 
