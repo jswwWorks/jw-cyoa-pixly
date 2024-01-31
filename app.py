@@ -1,11 +1,11 @@
 import os
-from dotenv import load_dotenv
-import requests
+# from dotenv import load_dotenv
+# import requests
 
 from s3_helpers import upload_to_s3
 
 # load environment variables from .env file
-load_dotenv()
+# load_dotenv()
 
 import boto3
 # s3 = boto3.resource('s3')
@@ -15,14 +15,17 @@ AWS_SECRET_ACCESS_KEY = os.environ['aws_secret_access_key']
 BUCKET_NAME = os.environ['bucket_name']
 # DATABASE_URL = os.environ['database_url']
 REGION_CODE = os.environ['region_code']
-SECRET_KEY = os.environ['secret_key']
+
+from flask import Flask, request, render_template, flash, redirect
+from flask_uploads import UploadSet, configure_uploads, IMAGES
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = os.environ['secret_key']
 
 
 # Virtual-hosted–style requests
 # https://<bucket-name>.s3.<region-code>.amazonaws.com/<key-name>
 
-from flask import Flask, request, render_template, flash, redirect
-from flask_uploads import UploadSet, configure_uploads, IMAGES
 
 # from werkzeug.utils import secure_filename
 # from werkzeug.datastructures import FileStorage
@@ -33,7 +36,6 @@ from flask_uploads import UploadSet, configure_uploads, IMAGES
 
 # import exifread <-- how to read exif data from photo file
 
-app = Flask(__name__)
 # debug = DebugToolbarExtension(app)
 
 # app.config['S3_BUCKET'] = 'S3_BUCKET_NAME'
@@ -51,7 +53,7 @@ configure_uploads(app, photos)
 # attempt at configuring S3 connection, "manage via python" from lecture
 s3 = boto3.client(
     's3',
-    'us-west-1',
+    'us-east-1',
     aws_access_key_id=AWS_ACCESS_KEY,
     aws_secret_access_key=AWS_SECRET_ACCESS_KEY
 )

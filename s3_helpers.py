@@ -15,6 +15,11 @@ SECRET_KEY = os.environ['secret_key']
 LOCAL_FILE = 'test_file.txt'
 NAME_FOR_S3 = 'test_file.txt'
 
+print('This is region code', REGION_CODE)
+print('This is secret key', SECRET_KEY)
+print('This is bucket name', BUCKET_NAME)
+
+
 def upload_to_s3(file, filename):
     print('In upload fn')
 
