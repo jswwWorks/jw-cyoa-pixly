@@ -2,6 +2,8 @@ import os
 from dotenv import load_dotenv
 import requests
 
+from s3_helpers import upload_to_s3
+
 # load environment variables from .env file
 load_dotenv()
 
@@ -19,7 +21,7 @@ SECRET_KEY = os.environ['secret_key']
 # Virtual-hosted–style requests
 # https://<bucket-name>.s3.<region-code>.amazonaws.com/<key-name>
 
-from flask import Flask, request, render_template, flash
+from flask import Flask, request, render_template, flash, redirect
 from flask_uploads import UploadSet, configure_uploads, IMAGES
 
 # from werkzeug.utils import secure_filename
@@ -69,6 +71,19 @@ def homepage():
     return render_template('base.html', photo_url=photo_url)
 
 
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_photo():
+    if request.method == 'POST':
+        # checks for file type
+        file = request.files['photo']
+        # after receiving valid photo file from form, we get a 'FileStorage'
+        # object w/ methods and properties on it, most importantly, 'filename'.
+        if file:
+            filename = file.filename
+            upload_to_s3(file, filename)
+            flash('File uploaded successfully!')
+            return redirect('/')
+    return render_template('form.html')
 
 
 
@@ -95,19 +110,3 @@ def homepage():
 #         flash("File uploaded successfully")
 
 #     flash("Method not allowed. Failed to upload file.")
-
-
-
-def upload():
-    print('In upload fn')
-
-    s3_client = boto3.client(
-        service_name='s3',
-        region_name=REGION_CODE,
-        aws_access_key_id=AWS_ACCESS_KEY,
-        aws_secret_access_key=AWS_SECRET_ACCESS_KEY
-    )
-
-    resp = s3_client.upload_file(LOCAL_FILE, BUCKET_NAME , NAME_FOR_S3)
-
-    print(f'upload file response: {resp}')
