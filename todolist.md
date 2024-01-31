@@ -2,9 +2,20 @@ OBJECTIVE TRACKER FOR PIX.LY
 
 Updated mental model:
 - we're not retrieving files from the bucket, we're just trying to view files from the bucket in the browser
-- to do so, we're giving anon users READ access in our bucket's permissions
+- to do so, we're giving anon users READ access in our bucket's permissions -- **bucket policy**
+
+then we should be able to click on the link and see the image (that'll demonstrate that we've enabled the proper permissions)
+
 
 - learn how to use s3 object
+
+
+main paths:
+photo manipulation - ways to download the image, store it on server so that you can make changes to it (you can't manipulate it while in bucket)
+data focus - EXIF data
+
+go onto YouTube to look for general tutorials
+
 
 
 Tues, Jan 30, 2024
