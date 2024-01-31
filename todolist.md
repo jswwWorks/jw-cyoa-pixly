@@ -1,5 +1,11 @@
 OBJECTIVE TRACKER FOR PIX.LY
 
+Updated mental model:
+- we're not retrieving files from the bucket, we're just trying to view files from the bucket in the browser
+- to do so, we're giving anon users READ access in our bucket's permissions
+
+- learn how to use s3 object
+
 
 Tues, Jan 30, 2024
 1. get a basic html going - done!

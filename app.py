@@ -59,8 +59,6 @@ def homepage():
     # TODO: attempt to retrieve photo(s) from S3 to put on homepage
 
 
-
-
     photo_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com/chowder.jpeg'
 
     return render_template('base.html', photo_url=photo_url)
