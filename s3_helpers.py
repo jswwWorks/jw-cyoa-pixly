@@ -77,10 +77,7 @@ def view_photos_from_s3():
 
     photos_urls = []
 
-    # Original url:
-    # photo_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com/{filename}'
     base_aws_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com'
-    # Now, our photo_url will be f'{base_aws_url}/{filename}'
 
     for page in page_iterator:
         if page['KeyCount'] > 0:

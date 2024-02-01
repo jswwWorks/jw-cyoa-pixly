@@ -1,8 +1,5 @@
 """SQLAlchemy models for pixly app"""
 
-# from datetime import datetime
-# we don't use this so I think it's safe to delete TODO: delete?
-
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 

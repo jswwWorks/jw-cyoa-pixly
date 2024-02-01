@@ -49,3 +49,11 @@ Wed, Jan 31, 2024
 some changes to make soon:
 - add a button on homepage that links to upload section
 - make sure to update db to accomodate larger varchar for model col
+
+
+
+Thursday, Feb 1, 2024
+- try to coerce num vals to strings then back to numbers and alter database schema (so user can search by # val)
+- add button linking to upload section
+- searching for exif data
+- picking lightning talk topic
