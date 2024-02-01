@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/static/stylesheets/pixly.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
   <title>Pix.ly</title>
 </head>
+
 <body>
   <div class="header-box">
     <h1>Welcome to Pix.ly!</h1>
@@ -21,10 +23,10 @@
       <li>See the images other users have uploaded</li>
     </ul>
 
-      <!-- flash messages populated here -->
-  {% for category, message in get_flashed_messages(with_categories=True) %}
-  <div class="alert alert-{{ category }}">{{ message }}</div>
-  {% endfor %}
+    <!-- flash messages populated here -->
+    {% for category, message in get_flashed_messages(with_categories=True) %}
+    <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
 
   </div>
   <!-- <img src="{{ photo_url }}"/> -->
@@ -32,13 +34,36 @@
     {% block content %}
     {% endblock %}
   </div>
+
+  <div class="images-searchbar">
+    <form action="{{ url_for('homepage') }}" method="GET">
+      <div>
+        <select name="search-category" required aria-label="form-label-type">
+          <option value="filename">Keyword</option>
+          <option value="make">Make</option>
+          <option value="model">Model</option>
+          <option value="maker-note">Maker Note</option>
+        </select>
+
+        <div>
+          <label for="search-term">Search Term: </label>
+          <input id="search-term" name="search-term" required />
+        </div>
+        <button type="submit">Search</button>
+
+      </div>
+    </form>
+  </div>
+
+
   <div class="image-storage">
     <div class="image-gallery-header">
       <p>Our Image Gallery</p>
     </div>
     {% for photo_url in photos_urls %}
-      <img src="{{ photo_url }}" class="img-display"/>
+    <img src="{{ photo_url }}" class="img-display" />
     {% endfor %}
   </div>
 </body>
+
 </html>
