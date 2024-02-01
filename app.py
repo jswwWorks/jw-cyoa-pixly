@@ -151,10 +151,11 @@ def upload_photo():
                     metadata_tags[conversion] = str(value)
 
                     if conversion in numeric_cols: # converts to # in rare case
-                        metadata_tags[conversion] = float(value)
+                        metadata_tags[conversion] = value
 
                     # print('metadata conversion for this entry', metadata_tags[conversion])
 
+            print('metadata_tags before submit_photo: ', metadata_tags)
 
 
             print('This is metadata tags', metadata_tags)
