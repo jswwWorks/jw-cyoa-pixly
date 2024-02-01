@@ -23,7 +23,7 @@ from models import (
 )
 
 from s3_helpers import (
-    photos_metadata_colname_conversions, upload_to_s3, view_photos_from_s3
+    photos_metadata_colname_conversions, upload_to_s3, view_photos_from_s3, view_filtered_photos_from_s3
 )
 
 app = Flask(__name__)
@@ -55,16 +55,16 @@ def homepage():
     print('Top of homepage route')
 
     # Gets searchbar submission and queries photos to display:
-    searchCategory = request.args.get('search-category')
-    searchTerm = request.args.get('search-term')
+    search_category = request.args.get('search-category')
+    search_term = request.args.get('search-term')
 
-    print('searchCategory: ', searchCategory)
-    print('searchTerm: ', searchTerm)
+    print('searchCategory: ', search_category)
+    print('searchTerm: ', search_term)
 
-    col_name = searchCategory
+    col_name = search_category
 
     photos_urls = []
-    if not searchTerm:
+    if not search_term:
         photos_urls = view_photos_from_s3()
     else:
 
@@ -72,19 +72,22 @@ def homepage():
         # print("***query", Photo.query.all())
 
 
-        photos_data = Photo.query.filter(Photo.filename.ilike("%Kodak%")).all()
+        photos_data = Photo.query.filter(Photo.filename.ilike(f"%{search_term}%")).all()
 
-        photos_urls = []
+        filenames = []
 
         for photo in photos_data:
-            photo_url = photo.filename
-            photos_urls.append(photo_url)
+            photo_filename = photo.filename
+            filenames.append(photo_filename)
+
+        print('This is photo_urls: ', filenames)
+
+        photos_urls = view_filtered_photos_from_s3(filenames)
+
 
         # photos_urls = Photo.query.filter(Photo.filename.ilike(f"%{searchTerm}%"))
 
         # photos_urls = db.query(Photo).filter(Photo.__table__.c[col_name].like(f"%{searchTerm}%")).all()
-        print('This is photo_urls: ', photos_urls)
-
 
 
 
@@ -94,14 +97,18 @@ def homepage():
         # photos_urls = Photo.query.filter(Photo.)
         # users = User.query.filter(User.username.like(f"%{search}%")).all()
 
-    # TODO: query database w/ filtered search term
+    # : query database w/ filtered search term
     # using filtered results, take the filename and get photos_urls from S3
 
 
 
+        # photos_urls = Photo.query(Photo).filter(getattr(Photo, col_name).like(f"%{searchTerm}%")).all()
+        # photos_urls = Photo.query(Notice).filter(Photo.searchCategory.like(f"%{searchTerm}%")).all()
+        # photos_urls = Photo.query.filter(Photo.)
+        # users = User.query.filter(User.username.like(f"%{search}%")).all()
 
-
-
+    # : query database w/ filtered search term
+    # using filtered results, take the filename and get photos_urls from S3
 
     return render_template('base.html', photos_urls=photos_urls)
 
