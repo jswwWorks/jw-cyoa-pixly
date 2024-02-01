@@ -1,0 +1,3 @@
+PostGresQL Full Text Search practice
+
+select filename || ' ' || model || '' || orientation_rotation || ' ' || software || ' ' || date_and_time || ' ' || ycbcr_positioning || ' ' || x_resolution || ' ' || y_resolution || ' ' || resolution_unit || ' ' || exposure_time || ' ' || f_number || ' ' || exposure_program || ' ' || exif_version || ' ' || date_and_time_original || ' ' || date_and_time_digitized || ' ' || components_configuration || ' ' || exposure_bias || ' ' || metering_mode || ' ' || flash || ' ' || focal_length || ' ' || maker_note || ' ' || flashpix_version || ' ' || color_space || ' ' || interoperability_index || ' ' || interoperability_version as document from photos_metadata;
