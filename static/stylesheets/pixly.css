@@ -39,6 +39,17 @@ h1 {
   font-size: 18px;
 }
 
+button {
+  background-color: #940909ff;
+  color: #fcf3f3ff;
+  box-shadow: 4px 4px #f7d5d5ff;
+  font-family: 'Montserrat', sans-serif;
+  border-color: #940909ff;
+  font-size: 16px;
+}
+
+
+
 .img-display {
   max-width: 300px;
   max-height: 400px;
