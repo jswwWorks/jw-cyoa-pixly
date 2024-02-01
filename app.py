@@ -85,15 +85,14 @@ def upload_photo():
     The GET route shows the upload form and the POST route processes form
     submission.
 
-    While processing submission, gets file and grabs the metadata with the
+    While processing submission, gets file and grabs the metadata via the
     exifread library. Translates EXIF data names to corresponding
     column names in database.
 
-    Also generates key in metadata for the file's name.
+    Also generates a key in metadata for the file's name.
 
-    Sends metadata to create a photo instance in the database with
-    the appropriate metadata extracted from the photo upload. Then, resets
-    cursor in process of reading document and calls function to upload the
+    Uses metadata extracted from the photo upload to create a photo instance
+    in the database. Then, resets cursor in photo file uploads the
     photo to the database.
     """
 
@@ -103,7 +102,7 @@ def upload_photo():
         # object w/ methods and properties on it, most importantly, 'filename'.
         if file:
             tags = exifread.process_file(file)
-            for tag in tags.keys():
+            for tag in tags.keys(): # TODO: do we still need 105-107?
                 if tag not in ('JPEGThumbnail', 'TIFFThumbnail', 'Filename', 'EXIF MakerNote'):
                     print("Key: %s, value %s" % (tag, tags[tag]))
 
