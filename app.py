@@ -72,7 +72,7 @@ def homepage():
     if request.method == 'GET':
         photos_urls_and_alt_tags = view_photos_from_s3()
         return render_template(
-            'base.html',
+            'gallery.html',
             photos_urls_and_alt_tags=photos_urls_and_alt_tags,
             col_names=col_names
         )
@@ -98,7 +98,7 @@ def homepage():
     flash(f'Showing results for {search_term}')
 
     return render_template(
-        'base.html',
+        'gallery.html',
         photos_urls_and_alt_tags=photos_urls_and_alt_tags,
         col_names=col_names
     )
