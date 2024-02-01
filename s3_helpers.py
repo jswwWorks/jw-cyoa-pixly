@@ -112,18 +112,25 @@ def view_photos_from_s3():
 
     base_aws_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com'
 
+    zipped_items = []
+
     for page in page_iterator:
         if page['KeyCount'] > 0:
             for file in page['Contents']:
                 filename = file["Key"]
                 photo_url = f'{base_aws_url}/{filename}'
-                photo_instance = Photo.query.filter_by(filename=f'{filename}').first() # TRY
+                photo_instance = Photo.query.filter_by(filename=f'{filename}').one_or_none() # TRY
                 print("this is our photo_instance", photo_instance)
                 alt_tag = photo_instance.alt_tag
+
+                zipped_items.append((photo_url, alt_tag, filename))
+
                 print("this is our alt tag", alt_tag)
                 photos_urls_and_alt_tags[photo_url] = alt_tag
 
-    return photos_urls_and_alt_tags
+    print('This is zipped items: ', zipped_items)
+
+    return (photos_urls_and_alt_tags, zipped_items)
 
 
 def view_filtered_photos_from_s3(filenames):
