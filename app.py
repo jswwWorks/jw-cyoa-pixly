@@ -20,7 +20,12 @@ from flask import Flask, request, render_template, flash, redirect
 from flask_uploads import UploadSet, configure_uploads, IMAGES
 import exifread
 
-from models import photos_metadata_colname_conversions, Photo, connect_db
+from models import (
+    photos_metadata_colname_conversions,
+    Photo,
+    connect_db,
+    numeric_cols
+)
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['secret_key']
@@ -143,9 +148,11 @@ def upload_photo():
                     conversion = photos_metadata_colname_conversions[key]
                     # print('This is conversion: ', conversion)
 
+                    metadata_tags[conversion] = str(value)
 
+                    if conversion in numeric_cols: # converts to # in rare case
+                        metadata_tags[conversion] = float(value)
 
-                    metadata_tags[conversion] = value
                     # print('metadata conversion for this entry', metadata_tags[conversion])
 
 

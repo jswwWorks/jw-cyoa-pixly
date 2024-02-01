@@ -46,11 +46,13 @@ photos_metadata_colname_conversions = {
     "Interoperability InteroperabilityVersion": "interoperability_version"
 }
 
-num_list = ["x_resolution", "y_resolution", "exposure_bias"]
+numeric_cols = ["x_resolution", "y_resolution", "exposure_bias"]
 
 
 class Photo(db.Model):
     """Photo in the database."""
+
+    __tablename__ = "photos_metadata"
 
     id = db.Column(
         db.Integer,
