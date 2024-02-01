@@ -23,7 +23,11 @@ from models import (
 )
 
 from s3_helpers import (
-    photos_metadata_colname_conversions, upload_to_s3, view_photos_from_s3, view_filtered_photos_from_s3
+    photos_metadata_colname_conversions,
+    upload_to_s3,
+    view_photos_from_s3,
+    view_filtered_photos_from_s3,
+    col_names
 )
 
 app = Flask(__name__)
@@ -61,22 +65,13 @@ def homepage():
     print('searchCategory: ', search_category)
     print('searchTerm: ', search_term)
 
-    col_name = search_category
-
     photos_urls = []
     if not search_term:
         photos_urls = view_photos_from_s3()
     else:
-
-        # photos_urls = Photo.query.all() # this gave both photos
-        # print("***query", Photo.query.all())
-
-
-        # WORKS: filename column specific ilike search
-        # photos_data = Photo.query.filter(Photo.filename.ilike(f"%{search_term}%")).all()
-
         # What we want: a general ilike search. We can do it!
-        photos_data = Photo.query.filter(getattr(Photo, col_name).ilike(f"%{search_term}%")).all()
+        photos_data = Photo.query.filter(
+            getattr(Photo, search_category).ilike(f"%{search_term}%")).all()
 
         filenames = []
 
@@ -84,22 +79,13 @@ def homepage():
             photo_filename = photo.filename
             filenames.append(photo_filename)
 
-        print('This is photo_urls: ', filenames)
+        print('This is filenames: ', filenames)
 
         photos_urls = view_filtered_photos_from_s3(filenames)
 
+        flash(f'Showing results for {search_term}')
 
-        # photos_urls = Photo.query.filter(Photo.filename.ilike(f"%{searchTerm}%"))
-
-
-        # photos_urls = db.query(Photo).filter(Photo.__table__.c[col_name].like(f"%{searchTerm}%")).all()
-
-        # photos_urls = Photo.query(Notice).filter(Photo.searchCategory.like(f"%{searchTerm}%")).all()
-
-    # : query database w/ filtered search term
-    # using filtered results, take the filename and get photos_urls from S3
-
-    return render_template('base.html', photos_urls=photos_urls)
+    return render_template('base.html', photos_urls=photos_urls, col_names=col_names)
 
 
 @app.route('/upload', methods=['GET', 'POST'])
@@ -151,7 +137,7 @@ def upload_photo():
             file.seek(0)
 
             upload_to_s3(file, filename)
-            # TODO: ^ this closes file
+            # ^ this closes file
             flash('File uploaded successfully!')
             return redirect('/')
     return render_template('form.html')
