@@ -5,6 +5,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import boto3
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 AWS_ACCESS_KEY = os.environ['aws_access_key_id']
 AWS_SECRET_ACCESS_KEY = os.environ['aws_secret_access_key']
@@ -45,11 +48,46 @@ s3 = boto3.client(
 )
 
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET', 'POST'])
 def homepage():
     """Gets all photo_urls from s3 bucket and shows them on homepage."""
 
-    photos_urls = view_photos_from_s3()
+    print('Top of homepage route')
+
+    # Gets searchbar submission and queries photos to display:
+    searchCategory = request.args.get('search-category')
+    searchTerm = request.args.get('search-term')
+
+    print('searchCategory: ', searchCategory)
+    print('searchTerm: ', searchTerm)
+
+    col_name = searchCategory
+
+    photos_urls = []
+    if not searchTerm:
+        photos_urls = view_photos_from_s3()
+    else:
+
+        photos_urls = db.query(Photo).filter(Photo.__table__.c[col_name].like(f"%{searchTerm}%")).all()
+        print('This is photo_urls: ', photos_urls)
+
+
+
+
+
+        # photos_urls = Photo.query(Photo).filter(getattr(Photo, col_name).like(f"%{searchTerm}%")).all()
+        # photos_urls = Photo.query(Notice).filter(Photo.searchCategory.like(f"%{searchTerm}%")).all()
+        # photos_urls = Photo.query.filter(Photo.)
+        # users = User.query.filter(User.username.like(f"%{search}%")).all()
+
+    # TODO: query database w/ filtered search term
+    # using filtered results, take the filename and get photos_urls from S3
+
+
+
+
+
+
 
     return render_template('base.html', photos_urls=photos_urls)
 
