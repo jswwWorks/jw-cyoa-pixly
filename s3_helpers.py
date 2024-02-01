@@ -47,12 +47,11 @@ photos_metadata_colname_conversions = {
     "Interoperability InteroperabilityVersion": "interoperability_version"
 }
 
-
 def upload_to_s3(file, filename):
     """
-    INPUT: Takes a file and its name.
+    INPUT: Takes a file and a string of its name.
 
-    FUNCTION: Uploads the file to bucket in S3.
+    FUNCTION: Uploads the file to a bucket in S3.
 
     OUTPUT: none
     """

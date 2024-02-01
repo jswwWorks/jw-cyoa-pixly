@@ -164,7 +164,7 @@ class Photo(db.Model):
     def submit_photo(self, metadata_tags):
         """
         INPUTS: submit_photo takes its instance and it takes metadata_tags,
-        a dictionary with information on a photo's metadata..
+        a dictionary with information on a photo's metadata.
 
         metadata_tags example:
         {

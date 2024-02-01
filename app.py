@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-import requests
+import requests # TODO: will we need?
 
 from s3_helpers import upload_to_s3
 
@@ -15,7 +15,7 @@ BUCKET_NAME = os.environ['bucket_name']
 REGION_CODE = os.environ['region_code']
 
 from flask import Flask, request, render_template, flash, redirect
-from flask_uploads import UploadSet, configure_uploads, IMAGES
+from flask_uploads import UploadSet, configure_uploads, IMAGES #TODO: do we need?
 import exifread
 
 from models import (
@@ -61,11 +61,16 @@ def homepage():
 
     photos_urls = []
 
+    # Original url:
+    # photo_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com/{filename}'
+    base_aws_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com'
+    # Now, our photo_url will be f'{base_aws_url}/{filename}'
+
     for page in page_iterator:
         if page['KeyCount'] > 0:
             for file in page['Contents']:
                 filename = file["Key"]
-                photo_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com/{filename}'
+                photo_url = f'{base_aws_url}/{filename}'
                 photos_urls.append(photo_url)
 
     return render_template('base.html', photos_urls=photos_urls)
