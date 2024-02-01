@@ -124,6 +124,8 @@ def upload_photo():
 
     if request.method == 'POST':
         file = request.files['photo']
+        alt_tag = request.form['alt-tag']
+        print("new alt tag,", alt_tag)
         # after receiving valid photo file from form, we get a 'FileStorage'
         # object w/ methods and properties on it, most importantly, 'filename'.
         if file:
@@ -132,6 +134,7 @@ def upload_photo():
             metadata_tags = {}
             filename = file.filename
             metadata_tags["filename"] = filename
+            metadata_tags["alt_tag"] = alt_tag
 
             for key, value in tags.items():
                 if (

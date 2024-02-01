@@ -157,6 +157,11 @@ class Photo(db.Model):
         nullable=True,
     )
 
+    alt_tag = db.Column(
+        db.String(400),
+        nullable=False
+    )
+
     @classmethod
     def submit_photo(self, metadata_tags):
         """

@@ -25,7 +25,8 @@ CREATE TABLE photos_metadata (
     flashpix_version VARCHAR(35),
     color_space VARCHAR(50),
     interoperability_index VARCHAR(10),
-    interoperability_version VARCHAR(50));
+    interoperability_version VARCHAR(50),
+    alt_tag VARCHAR(400));
 
 
 -- Aight, look. We type coerced everything into only strings because it's difficult trying to convert
