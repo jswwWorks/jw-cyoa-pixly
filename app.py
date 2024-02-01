@@ -74,18 +74,19 @@ def homepage():
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_photo():
     """
-    This route grabs metadata from photo upload and then uploads the photo to
-    the database.
+    Grabs the metadata from a photo upload and then uploads the photo to the
+    database.
 
-    The GET route shows upload form and POST route processes form submission.
+    The GET route shows the upload form and the POST route processes form
+    submission.
 
     While processing submission, gets file and grabs the metadata with the
-    exifread library. Translates the EXIF data names from photo to corresponding
+    exifread library. Translates EXIF data names to corresponding
     column names in database.
 
     Also generates key in metadata for the file's name.
 
-    Sends metadata in to create another Photo instance in the database with
+    Sends metadata to create a photo instance in the database with
     the appropriate metadata extracted from the photo upload. Then, resets
     cursor in process of reading document and calls function to upload the
     photo to the database.

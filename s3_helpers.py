@@ -3,7 +3,6 @@ from dotenv import load_dotenv
 import boto3
 # from botocore.exceptions import ClientError # TODO: will we need this?
 
-
 # load environment variables from .env file
 load_dotenv()
 
@@ -19,7 +18,6 @@ NAME_FOR_S3 = 'test_file.txt'
 # print('This is region code', REGION_CODE)
 # print('This is secret key', SECRET_KEY)
 # print('This is bucket name', BUCKET_NAME)
-
 
 photos_metadata_colname_conversions = {
     "Image Make": "make",
