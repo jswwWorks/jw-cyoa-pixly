@@ -60,3 +60,11 @@ Thursday, Feb 1, 2024
 
 TODO: reconfigure HTML as needed
 TODO: add alt image tags to site for accessibility
+
+
+
+TODO: 1. make buttons that direct to upload page and button to redirect to homepage
+TODO: 2. make links to photos to bring them to their own page to see their metadata and potential edits
+TODO: 3. make button to return to homepage on single photo page
+TODO: 3.5 recongifure base.html and put appropriate non-base.html templates elsewhere
+TODO: 4. on editing photo, redirect to homepage?
