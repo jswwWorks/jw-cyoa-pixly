@@ -22,71 +22,16 @@
       <li>See the images you uploaded</li>
       <li>See the images other users have uploaded</li>
     </ul>
-
-  </div>
-  <!-- <img src="{{ photo_url }}"/> -->
-  <div class="image-upload-form">
-    {% block content %}
-    {% endblock %}
   </div>
 
-  <!-- original search form for reference: -->
-  <!-- <div class="images-searchbar">
-    <form action="{{ url_for('homepage') }}" method="GET">
-      <div>
-        <select name="search-category" required aria-label="form-label-type">
-          <option value="filename">Keyword</option>
-          <option value="make">Make</option>
-          <option value="model">Model</option>
-          <option value="maker-note">Maker Note</option>
-          <option value="alt-tag">Alt Tag</option>
-        </select>
-
-        <div>
-          <label for="search-term">Search Term: </label>
-          <input id="search-term" name="search-term" required />
-        </div>
-        <button type="submit">Search</button>
-
-      </div>
-    </form>
-  </div> -->
-
-
-  <!-- dynamically set select values idea: -->
-  <div class="images-searchbar">
-    <form action="{{ url_for('homepage') }}" method="POST">
-      <div>
-        <select name="search-category" required aria-label="form-label-type">
-          {% for col_name in col_names %}
-          <option value="{{ col_name }}">{{ col_name }}</option>
-          {% endfor %}
-        </select>
-
-        <div>
-          <label for="search-term">Search Term: </label>
-          <input id="search-term" name="search-term" required />
-        </div>
-        <button type="submit">Search</button>
-
-      </div>
-    </form>
-  </div>
+  {% block content %}
+  {% endblock %}
 
   <!-- flash messages populated here -->
   {% for category, message in get_flashed_messages(with_categories=True) %}
   <div class="alert alert-{{ category }}">{{ message }}</div>
   {% endfor %}
 
-
-  <div class="image-storage">
-    <div class="image-gallery-header">
-      <p>Our Image Gallery</p>
-    </div>
-    {% for (photo_url, alt_tag) in photos_urls_and_alt_tags.items() %}
-    <img src="{{ photo_url }}" alt="{{ alt_tag }}" class="img-display" />
-    {% endfor %}
-  </div>
 </body>
 
 </html>
