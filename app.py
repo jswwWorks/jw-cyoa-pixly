@@ -134,7 +134,7 @@ def upload_photo():
             metadata_tags = {}
             filename = file.filename
             metadata_tags["filename"] = filename
-            metadata_tags["alt_tag"] = alt_tag
+            metadata_tags["alt_tag"] = alt_tag or filename
 
             for key, value in tags.items():
                 if (
