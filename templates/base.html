@@ -20,6 +20,12 @@
       <li>See the images you uploaded</li>
       <li>See the images other users have uploaded</li>
     </ul>
+
+      <!-- flash messages populated here -->
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+  <div class="alert alert-{{ category }}">{{ message }}</div>
+  {% endfor %}
+
   </div>
   <!-- <img src="{{ photo_url }}"/> -->
   <div class="image-upload-form">

@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 import boto3
-# from botocore.exceptions import ClientError # TODO: will we need this?
+import botocore
 
 # load environment variables from .env file
 load_dotenv()
@@ -12,12 +12,12 @@ BUCKET_NAME = os.environ['bucket_name']
 REGION_CODE = os.environ['region_code']
 SECRET_KEY = os.environ['secret_key']
 
-LOCAL_FILE = 'test_file.txt'
-NAME_FOR_S3 = 'test_file.txt'
-
-# print('This is region code', REGION_CODE)
-# print('This is secret key', SECRET_KEY)
-# print('This is bucket name', BUCKET_NAME)
+s3 = boto3.client(
+    service_name='s3',
+    region_name=REGION_CODE,
+    aws_access_key_id=AWS_ACCESS_KEY,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY
+)
 
 photos_metadata_colname_conversions = {
     "Image Make": "make",
@@ -58,27 +58,35 @@ def upload_to_s3(file, filename):
 
     print('In upload_to_s3 function')
 
-    s3_client = boto3.client(
-        service_name='s3',
-        region_name=REGION_CODE,
-        aws_access_key_id=AWS_ACCESS_KEY,
-        aws_secret_access_key=AWS_SECRET_ACCESS_KEY
-    )
-
-    print('This is bucket name', BUCKET_NAME)
-
-    print('This is file', file)
-    print('This is filename', filename)
-
-    resp = s3_client.upload_fileobj(file, BUCKET_NAME , filename)
+    try:
+        resp = s3.upload_fileobj(file, BUCKET_NAME , filename)
+    except botocore.exceptions.ClientError as error:
+        raise error
 
     print(f'upload file response: {resp}')
 
     # boto closes file
 
 
-
-# TODO: can we delete this fn? I'm assuming we don't need it but I'm leaving
-# it just in case
 def view_photos_from_s3():
-    print('In view_photos_from_s3')
+    """Gets images from S3 bucket and returns a list of photo urls."""
+
+    # Source: https://stackoverflow.com/questions/44238525/how-to-iterate-over-files-in-an-s3-bucket
+    paginator = s3.get_paginator('list_objects_v2')
+    page_iterator = paginator.paginate(Bucket=BUCKET_NAME)
+
+    photos_urls = []
+
+    # Original url:
+    # photo_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com/{filename}'
+    base_aws_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com'
+    # Now, our photo_url will be f'{base_aws_url}/{filename}'
+
+    for page in page_iterator:
+        if page['KeyCount'] > 0:
+            for file in page['Contents']:
+                filename = file["Key"]
+                photo_url = f'{base_aws_url}/{filename}'
+                photos_urls.append(photo_url)
+
+    return photos_urls

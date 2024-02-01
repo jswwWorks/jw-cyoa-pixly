@@ -1,8 +1,5 @@
 import os
 from dotenv import load_dotenv
-import requests # TODO: will we need?
-
-from s3_helpers import upload_to_s3
 
 # load environment variables from .env file
 load_dotenv()
@@ -15,7 +12,6 @@ BUCKET_NAME = os.environ['bucket_name']
 REGION_CODE = os.environ['region_code']
 
 from flask import Flask, request, render_template, flash, redirect
-from flask_uploads import UploadSet, configure_uploads, IMAGES #TODO: do we need?
 import exifread
 
 from models import (
@@ -24,7 +20,7 @@ from models import (
 )
 
 from s3_helpers import (
-    photos_metadata_colname_conversions
+    photos_metadata_colname_conversions, upload_to_s3, view_photos_from_s3
 )
 
 app = Flask(__name__)
@@ -32,7 +28,7 @@ app.config['SECRET_KEY'] = os.environ['secret_key']
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_ECHO'] = False
-# app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 connect_db(app)
 
@@ -53,23 +49,7 @@ s3 = boto3.client(
 def homepage():
     """Gets all photo_urls from s3 bucket and shows them on homepage."""
 
-    # Source: https://stackoverflow.com/questions/44238525/how-to-iterate-over-files-in-an-s3-bucket
-    paginator = s3.get_paginator('list_objects_v2')
-    page_iterator = paginator.paginate(Bucket=BUCKET_NAME)
-
-    photos_urls = []
-
-    # Original url:
-    # photo_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com/{filename}'
-    base_aws_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com'
-    # Now, our photo_url will be f'{base_aws_url}/{filename}'
-
-    for page in page_iterator:
-        if page['KeyCount'] > 0:
-            for file in page['Contents']:
-                filename = file["Key"]
-                photo_url = f'{base_aws_url}/{filename}'
-                photos_urls.append(photo_url)
+    photos_urls = view_photos_from_s3()
 
     return render_template('base.html', photos_urls=photos_urls)
 
@@ -100,9 +80,6 @@ def upload_photo():
         # object w/ methods and properties on it, most importantly, 'filename'.
         if file:
             tags = exifread.process_file(file)
-            for tag in tags.keys(): # TODO: do we still need 105-107?
-                if tag not in ('JPEGThumbnail', 'TIFFThumbnail', 'Filename', 'EXIF MakerNote'):
-                    print("Key: %s, value %s" % (tag, tags[tag]))
 
             metadata_tags = {}
             filename = file.filename

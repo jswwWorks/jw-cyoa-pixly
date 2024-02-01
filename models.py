@@ -41,7 +41,7 @@ class Photo(db.Model):
     )
 
     model = db.Column(
-        db.String(30),
+        db.String(60),
         nullable=True,
     )
 
@@ -121,12 +121,12 @@ class Photo(db.Model):
     )
 
     metering_mode = db.Column(
-        db.String(20),
+        db.String(50),
         nullable=True,
     )
 
     flash = db.Column(
-        db.String(40),
+        db.String(100),
         nullable=True,
     )
 
@@ -146,7 +146,7 @@ class Photo(db.Model):
     )
 
     color_space = db.Column(
-        db.String(20),
+        db.String(50),
         nullable=True,
     )
 
@@ -156,7 +156,7 @@ class Photo(db.Model):
     )
 
     interoperability_version = db.Column(
-        db.String(20),
+        db.String(50),
         nullable=True,
     )
 

@@ -18,14 +18,14 @@ CREATE TABLE photos_metadata (
     date_and_time_digitized VARCHAR(30),
     components_configuration VARCHAR(25),
     exposure_bias VARCHAR(30),
-    metering_mode VARCHAR(20),
-    flash VARCHAR(40),
+    metering_mode VARCHAR(50),
+    flash VARCHAR(100),
     focal_length VARCHAR(10),
     maker_note VARCHAR(100),
     flashpix_version VARCHAR(35),
-    color_space VARCHAR(20),
+    color_space VARCHAR(50),
     interoperability_index VARCHAR(10),
-    interoperability_version VARCHAR(20));
+    interoperability_version VARCHAR(50));
 
 
 -- Aight, look. We type coerced everything into only strings because it's difficult trying to convert
