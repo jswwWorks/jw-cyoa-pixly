@@ -148,6 +148,9 @@ def upload_photo():
                     conversion = photos_metadata_colname_conversions[key]
                     # print('This is conversion: ', conversion)
 
+
+                    # metadata_tags[] =
+
                     metadata_tags[conversion] = str(value)
 
                     # if conversion in numeric_cols: # converts to # in rare case

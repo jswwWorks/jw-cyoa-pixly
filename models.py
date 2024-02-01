@@ -85,7 +85,7 @@ class Photo(db.Model):
     )
 
     date_and_time = db.Column(
-        db.DateTime,
+        db.String(30),
         nullable=True,
     )
 
@@ -95,12 +95,12 @@ class Photo(db.Model):
     )
 
     x_resolution = db.Column(
-        db.Numeric(10, 2),
+        db.String(30),
         nullable=True,
     )
 
     y_resolution = db.Column(
-        db.Numeric(10, 2),
+        db.String(30),
         nullable=True,
     )
 
@@ -130,12 +130,12 @@ class Photo(db.Model):
     )
 
     date_and_time_original = db.Column(
-        db.DateTime,
+        db.String(30),
         nullable=True,
     )
 
     date_and_time_digitized = db.Column(
-        db.DateTime,
+        db.String(30),
         nullable=True,
     )
 
@@ -145,7 +145,7 @@ class Photo(db.Model):
     )
 
     exposure_bias = db.Column(
-        db.Numeric(2, 2),
+        db.String(30),
         nullable=True,
     )
 
