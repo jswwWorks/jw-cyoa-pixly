@@ -2,6 +2,8 @@ import os
 from dotenv import load_dotenv
 import boto3
 import botocore
+from models import Photo
+
 
 # load environment variables from .env file
 load_dotenv()
@@ -106,7 +108,7 @@ def view_photos_from_s3():
     paginator = s3.get_paginator('list_objects_v2')
     page_iterator = paginator.paginate(Bucket=BUCKET_NAME)
 
-    photos_urls = []
+    photos_urls_and_alt_tags = {}
 
     base_aws_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com'
 
@@ -115,9 +117,13 @@ def view_photos_from_s3():
             for file in page['Contents']:
                 filename = file["Key"]
                 photo_url = f'{base_aws_url}/{filename}'
-                photos_urls.append(photo_url)
+                photo_instance = Photo.query.filter_by(filename=f'{filename}').first() # TRY
+                print("this is our photo_instance", photo_instance)
+                alt_tag = photo_instance.alt_tag
+                print("this is our alt tag", alt_tag)
+                photos_urls_and_alt_tags[photo_url] = alt_tag
 
-    return photos_urls
+    return photos_urls_and_alt_tags
 
 
 def view_filtered_photos_from_s3(filenames):

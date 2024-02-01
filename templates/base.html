@@ -83,8 +83,8 @@
     <div class="image-gallery-header">
       <p>Our Image Gallery</p>
     </div>
-    {% for photo_url in photos_urls %}
-    <img src="{{ photo_url }}" class="img-display" />
+    {% for (photo_url, alt_tag) in photos_urls_and_alt_tags.items() %}
+    <img src="{{ photo_url }}" alt="{{ alt_tag }}" class="img-display" />
     {% endfor %}
   </div>
 </body>

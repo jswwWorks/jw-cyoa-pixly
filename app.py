@@ -54,31 +54,35 @@ s3 = boto3.client(
 
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
-    """Gets all photo_urls from s3 bucket and shows them on homepage."""
+    """
+    Shows homepage.
+
+    The GET route gets all photo_urls from the s3 bucket and displays them on
+    the homepage.
+
+    The POST route handles the submission of a search in the database for photos
+    matching a particular search term. Users can select a column in the database
+    to search by along with a search term. Populates the homepage only with
+    photo(s) matching the search term.
+    """
 
     print('Top of homepage route')
 
-    # Gets searchbar submission and queries photos to display:
-    # search_category = request.args.get('search-category')
-    # search_term = request.args.get('search-term')
 
     if request.method == 'GET':
-        photos_urls = view_photos_from_s3()
+        photos_urls_and_alt_tags = view_photos_from_s3()
         return render_template(
             'base.html',
-            photos_urls=photos_urls,
+            photos_urls_and_alt_tags=photos_urls_and_alt_tags,
             col_names=col_names
         )
 
-    photos_urls = []
-
+    photos_urls_and_alt_tags = []
     search_category = request.form['search-category']
     search_term = request.form['search-term']
+    # print('searchCategory: ', search_category)
+    # print('searchTerm: ', search_term)
 
-    print('searchCategory: ', search_category)
-    print('searchTerm: ', search_term)
-
-    # What we want: a general ilike search. We can do it!
     photos_data = Photo.query.filter(
         getattr(Photo, search_category).ilike(f"%{search_term}%")).all()
 
@@ -90,9 +94,14 @@ def homepage():
 
     print('This is filenames: ', filenames)
 
-    photos_urls = view_filtered_photos_from_s3(filenames)
+    photos_urls_and_alt_tags = view_filtered_photos_from_s3(filenames)
     flash(f'Showing results for {search_term}')
-    return render_template('base.html', photos_urls=photos_urls, col_names=col_names)
+
+    return render_template(
+        'base.html',
+        photos_urls_and_alt_tags=photos_urls_and_alt_tags,
+        col_names=col_names
+    )
 
 
 @app.route('/upload', methods=['GET', 'POST'])
