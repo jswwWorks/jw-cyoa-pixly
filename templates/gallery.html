@@ -2,33 +2,48 @@
 
 {% block content %}
 
-  <!-- dynamically set select values idea: -->
-  <div class="images-searchbar">
-    <form action="{{ url_for('homepage') }}" method="POST">
+<!-- dynamically set select values idea: -->
+<div class="images-searchbar">
+  <form action="{{ url_for('homepage') }}" method="POST">
+    <div>
+      <select name="search-category" required aria-label="form-label-type">
+        {% for col_name in col_names %}
+        <option value="{{ col_name }}">{{ col_name }}</option>
+        {% endfor %}
+      </select>
+
       <div>
-        <select name="search-category" required aria-label="form-label-type">
-          {% for col_name in col_names %}
-          <option value="{{ col_name }}">{{ col_name }}</option>
-          {% endfor %}
-        </select>
-
-        <div>
-          <label for="search-term">Search Term: </label>
-          <input id="search-term" name="search-term" required />
-        </div>
-        <button type="submit">Search</button>
-
+        <label for="search-term">Search Term: </label>
+        <input id="search-term" name="search-term" required />
       </div>
-    </form>
-  </div>
+      <button type="submit">Search</button>
+
+    </div>
+  </form>
+</div>
 
 <div class="image-storage">
   <div class="image-gallery-header">
     <p>Our Image Gallery</p>
   </div>
-  {% for (photo_url, alt_tag) in photos_urls_and_alt_tags.items() %}
-  <img src="{{ photo_url }}" alt="{{ alt_tag }}" class="img-display" />
+
+  {% for (photo_url, alt_tag, filename) in zipped_items %}
+  <div>
+    <a href="/photos/{{ filename }}">
+      <img src="{{ photo_url }}" alt="{{ alt_tag }}" class="img-display" />
+    </a>
+  </div>
   {% endfor %}
+
+  <!-- {% for (photo_url, alt_tag) in photos_urls_and_alt_tags.items() %}
+  <div>
+    <a href="/photos/{{ filename }}">
+      <img src="{{ photo_url }}" alt="{{ alt_tag }}" class="img-display" />
+    </a>
+  </div>
+  {% endfor %} -->
+
+
 </div>
 
 {% endblock %}
