@@ -55,7 +55,7 @@
 
   <!-- dynamically set select values idea: -->
   <div class="images-searchbar">
-    <form action="{{ url_for('homepage') }}" method="GET">
+    <form action="{{ url_for('homepage') }}" method="POST">
       <div>
         <select name="search-category" required aria-label="form-label-type">
           {% for col_name in col_names %}

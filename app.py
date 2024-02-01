@@ -59,32 +59,39 @@ def homepage():
     print('Top of homepage route')
 
     # Gets searchbar submission and queries photos to display:
-    search_category = request.args.get('search-category')
-    search_term = request.args.get('search-term')
+    # search_category = request.args.get('search-category')
+    # search_term = request.args.get('search-term')
+
+    if request.method == 'GET':
+        photos_urls = view_photos_from_s3()
+        return render_template(
+            'base.html',
+            photos_urls=photos_urls,
+            col_names=col_names
+        )
+
+    photos_urls = []
+
+    search_category = request.form['search-category']
+    search_term = request.form['search-term']
 
     print('searchCategory: ', search_category)
     print('searchTerm: ', search_term)
 
-    photos_urls = []
-    if not search_term:
-        photos_urls = view_photos_from_s3()
-    else:
-        # What we want: a general ilike search. We can do it!
-        photos_data = Photo.query.filter(
-            getattr(Photo, search_category).ilike(f"%{search_term}%")).all()
+    # What we want: a general ilike search. We can do it!
+    photos_data = Photo.query.filter(
+        getattr(Photo, search_category).ilike(f"%{search_term}%")).all()
 
-        filenames = []
+    filenames = []
 
-        for photo in photos_data:
-            photo_filename = photo.filename
-            filenames.append(photo_filename)
+    for photo in photos_data:
+        photo_filename = photo.filename
+        filenames.append(photo_filename)
 
-        print('This is filenames: ', filenames)
+    print('This is filenames: ', filenames)
 
-        photos_urls = view_filtered_photos_from_s3(filenames)
-
-        flash(f'Showing results for {search_term}')
-
+    photos_urls = view_filtered_photos_from_s3(filenames)
+    flash(f'Showing results for {search_term}')
     return render_template('base.html', photos_urls=photos_urls, col_names=col_names)
 
 
