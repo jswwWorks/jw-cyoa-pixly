@@ -72,7 +72,11 @@ def homepage():
         # print("***query", Photo.query.all())
 
 
-        photos_data = Photo.query.filter(Photo.filename.ilike(f"%{search_term}%")).all()
+        # WORKS: filename column specific ilike search
+        # photos_data = Photo.query.filter(Photo.filename.ilike(f"%{search_term}%")).all()
+
+        # What we want: a general ilike search. We can do it!
+        photos_data = Photo.query.filter(getattr(Photo, col_name).ilike(f"%{search_term}%")).all()
 
         filenames = []
 
@@ -87,25 +91,10 @@ def homepage():
 
         # photos_urls = Photo.query.filter(Photo.filename.ilike(f"%{searchTerm}%"))
 
+
         # photos_urls = db.query(Photo).filter(Photo.__table__.c[col_name].like(f"%{searchTerm}%")).all()
 
-
-
-
-        # photos_urls = Photo.query(Photo).filter(getattr(Photo, col_name).like(f"%{searchTerm}%")).all()
         # photos_urls = Photo.query(Notice).filter(Photo.searchCategory.like(f"%{searchTerm}%")).all()
-        # photos_urls = Photo.query.filter(Photo.)
-        # users = User.query.filter(User.username.like(f"%{search}%")).all()
-
-    # : query database w/ filtered search term
-    # using filtered results, take the filename and get photos_urls from S3
-
-
-
-        # photos_urls = Photo.query(Photo).filter(getattr(Photo, col_name).like(f"%{searchTerm}%")).all()
-        # photos_urls = Photo.query(Notice).filter(Photo.searchCategory.like(f"%{searchTerm}%")).all()
-        # photos_urls = Photo.query.filter(Photo.)
-        # users = User.query.filter(User.username.like(f"%{search}%")).all()
 
     # : query database w/ filtered search term
     # using filtered results, take the filename and get photos_urls from S3
