@@ -47,6 +47,37 @@ photos_metadata_colname_conversions = {
     "Interoperability InteroperabilityVersion": "interoperability_version"
 }
 
+col_names = [
+    "filename",
+    "alt_tag",
+    "make",
+    "model",
+    "orientation_rotation",
+    "software",
+    "date_and_time",
+    "ycbcr_positioning",
+    "x_resolution",
+    "y_resolution",
+    "resolution_unit",
+    "exposure_time",
+    "f_number",
+    "exposure_program",
+    "exif_version",
+    "date_and_time_original",
+    "date_and_time_digitized",
+    "components_configuration",
+    "exposure_bias",
+    "metering_mode",
+    "flash",
+    "focal_length",
+    "maker_note",
+    "flashpix_version",
+    "color_space",
+    "interoperability_index",
+    "interoperability_version"
+]
+
+
 def upload_to_s3(file, filename):
     """
     INPUT: Takes a file and a string of its name.
@@ -59,7 +90,7 @@ def upload_to_s3(file, filename):
     print('In upload_to_s3 function')
 
     try:
-        resp = s3.upload_fileobj(file, BUCKET_NAME , filename)
+        resp = s3.upload_fileobj(file, BUCKET_NAME, filename)
     except botocore.exceptions.ClientError as error:
         raise error
 
