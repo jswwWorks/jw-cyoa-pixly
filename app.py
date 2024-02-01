@@ -68,7 +68,21 @@ def homepage():
         photos_urls = view_photos_from_s3()
     else:
 
-        photos_urls = db.query(Photo).filter(Photo.__table__.c[col_name].like(f"%{searchTerm}%")).all()
+        # photos_urls = Photo.query.all() # this gave both photos
+        # print("***query", Photo.query.all())
+
+
+        photos_data = Photo.query.filter(Photo.filename.ilike("%Kodak%")).all()
+
+        photos_urls = []
+
+        for photo in photos_data:
+            photo_url = photo.filename
+            photos_urls.append(photo_url)
+
+        # photos_urls = Photo.query.filter(Photo.filename.ilike(f"%{searchTerm}%"))
+
+        # photos_urls = db.query(Photo).filter(Photo.__table__.c[col_name].like(f"%{searchTerm}%")).all()
         print('This is photo_urls: ', photos_urls)
 
 

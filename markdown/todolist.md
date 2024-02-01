@@ -57,3 +57,6 @@ Thursday, Feb 1, 2024
 - add button linking to upload section
 - searching for exif data
 - picking lightning talk topic
+
+TODO: reconfigure HTML as needed
+TODO: add alt image tags to site for accessibility
