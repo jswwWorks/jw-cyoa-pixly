@@ -23,11 +23,6 @@
       <li>See the images other users have uploaded</li>
     </ul>
 
-    <!-- flash messages populated here -->
-    {% for category, message in get_flashed_messages(with_categories=True) %}
-    <div class="alert alert-{{ category }}">{{ message }}</div>
-    {% endfor %}
-
   </div>
   <!-- <img src="{{ photo_url }}"/> -->
   <div class="image-upload-form">
@@ -35,7 +30,8 @@
     {% endblock %}
   </div>
 
-  <div class="images-searchbar">
+  <!-- original search form for reference: -->
+  <!-- <div class="images-searchbar">
     <form action="{{ url_for('homepage') }}" method="GET">
       <div>
         <select name="search-category" required aria-label="form-label-type">
@@ -54,7 +50,33 @@
 
       </div>
     </form>
+  </div> -->
+
+
+  <!-- dynamically set select values idea: -->
+  <div class="images-searchbar">
+    <form action="{{ url_for('homepage') }}" method="GET">
+      <div>
+        <select name="search-category" required aria-label="form-label-type">
+          {% for col_name in col_names %}
+          <option value="{{ col_name }}">{{ col_name }}</option>
+          {% endfor %}
+        </select>
+
+        <div>
+          <label for="search-term">Search Term: </label>
+          <input id="search-term" name="search-term" required />
+        </div>
+        <button type="submit">Search</button>
+
+      </div>
+    </form>
   </div>
+
+  <!-- flash messages populated here -->
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+  <div class="alert alert-{{ category }}">{{ message }}</div>
+  {% endfor %}
 
 
   <div class="image-storage">
