@@ -70,11 +70,14 @@ def homepage():
 
 
     if request.method == 'GET':
-        photos_urls_and_alt_tags = view_photos_from_s3()
+        photos_urls_and_alt_tags, zipped_items = view_photos_from_s3()
+
+        print('This is zipped items in app: ', zipped_items)
         return render_template(
             'gallery.html',
             photos_urls_and_alt_tags=photos_urls_and_alt_tags,
-            col_names=col_names
+            col_names=col_names,
+            zipped_items=zipped_items
         )
 
     photos_urls_and_alt_tags = []
@@ -102,6 +105,22 @@ def homepage():
         photos_urls_and_alt_tags=photos_urls_and_alt_tags,
         col_names=col_names
     )
+
+
+@app.route('/photos/<filename>', methods=['GET', 'POST'])
+def get_single_photo(filename):
+    """
+    Route function that gets single photo and shows all of its metadata
+    information.
+
+    Can make edits on photo (<-- figure this out later)
+    """
+
+    if request.method == 'GET':
+
+        photo = Photo.query.filter_by(filename=f'{filename}').one_or_none()
+
+        return render_template('photo.html', photo=photo)
 
 
 @app.route('/upload', methods=['GET', 'POST'])
