@@ -1,3 +1,15 @@
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
 body {
   background-color: #fcf3f3ff;
   margin-left: 10vw;
@@ -16,6 +28,7 @@ body {
   align-items: center;
   box-shadow: 8px 8px #a95050ff;
   margin-bottom: 8vh;
+  animation: slideIn 1s ease;
 }
 
 h1 {
@@ -37,6 +50,8 @@ h1 {
   align-items: center;
   box-shadow: 8px 8px #f7d5d5ff;
   font-size: 18px;
+  /* animation: slideIn 1s ease; */
+
 }
 
 button {
@@ -56,6 +71,7 @@ button {
 .site-overview, h2, label, input {
   color: #940909ff;
   padding-left: 4vw;
+  /* animation: slideIn 1s ease; */
 }
 
 li, form {
