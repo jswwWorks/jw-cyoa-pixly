@@ -42,6 +42,8 @@ def upload_to_s3(file, filename):
 
     print(f'upload file response: {resp}')
 
+    # boto closes file
+
 
 
 def view_photos_from_s3():

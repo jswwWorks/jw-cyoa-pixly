@@ -102,10 +102,6 @@ def homepage():
 
     # photo_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com/risotto.jpeg'
 
-
-
-
-
     return render_template('base.html', photos_urls=photos_urls)
 
 
@@ -134,38 +130,49 @@ def upload_photo():
 
             # return exif tags
             # print('Before tags')
+            # TODO: bookmark
             tags = exifread.process_file(file)
+            # copy_of_tags = tags.deepcopy()
             # print('After tags: ', tags)
 
             # for tag in tags.keys():
             #     if tag not in ('JPEGThumbnail', 'TIFFThumbnail', 'Filename', 'EXIF MakerNote'):
             #         print("Key: %s, value %s" % (tag, tags[tag]))
 
+
+
+# TODO: bookmark
             metadata_tags = {}
+            filename = file.filename
+            metadata_tags["filename"] = filename
 
             for key, value in tags.items():
                 if key not in metadata_tags and key in photos_metadata_colname_conversions:
                     conversion = photos_metadata_colname_conversions[key]
-                    # print('This is conversion: ', conversion)
+                    print('This is conversion: ', conversion)
 
 
-                    # metadata_tags[] =
+
+            #         # metadata_tags[] =
 
                     metadata_tags[conversion] = str(value)
 
-                    # if conversion in numeric_cols: # converts to # in rare case
-                    #     metadata_tags[conversion] = value
+            #         # if conversion in numeric_cols: # converts to # in rare case
+            #         #     metadata_tags[conversion] = value
 
-                    # print('metadata conversion for this entry', metadata_tags[conversion])
-
-            print('metadata_tags before submit_photo: ', metadata_tags)
+            #         # print('metadata conversion for this entry', metadata_tags[conversion])
 
 
-            print('This is metadata tags', metadata_tags)
+
+            # print('metadata_tags before submit_photo: ', metadata_tags)
+
+
+            # print('This is metadata tags', metadata_tags)
             new_photo_in_db = Photo.submit_photo(metadata_tags)
             print('new_photo_in_db: ', new_photo_in_db)
 
 
+            # TODO: add filename to record in db
 
             # if key in tags not in metadata_tags
             # and also check that it's in photos_metadata_colname_conversions:
@@ -174,13 +181,19 @@ def upload_photo():
 
 
 
+            # puts cursor back to the beginning of the file
+            file.seek(0)
 
-
-
-
-            filename = file.filename
             upload_to_s3(file, filename)
+            # TODO: ^ this closes file
             flash('File uploaded successfully!')
+
+
+            # make in-memory copy of file to do separate operations on it
+
+
+
+
             return redirect('/')
     return render_template('form.html')
 
