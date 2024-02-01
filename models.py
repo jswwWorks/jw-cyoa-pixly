@@ -30,6 +30,7 @@ class Photo(db.Model):
     filename = db.Column(
         db.String(150),
         nullable=True,
+        unique=True,
     )
 
     make = db.Column(
