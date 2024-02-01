@@ -87,3 +87,18 @@ def view_photos_from_s3():
                 photos_urls.append(photo_url)
 
     return photos_urls
+
+
+def view_filtered_photos_from_s3(filenames):
+    # paginator = s3.get_paginator('list_objects_v2')
+    # page_iterator = paginator.paginate(Bucket=BUCKET_NAME)
+
+    photos_urls = []
+
+    base_aws_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com'
+
+    for file_name in filenames:
+        photo_url = f'{base_aws_url}/{file_name}'
+        photos_urls.append(photo_url)
+
+    return photos_urls
