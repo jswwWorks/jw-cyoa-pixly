@@ -43,3 +43,13 @@ h1 {
   max-width: 300px;
   max-height: 400px;
 }
+
+.site-overview, h2, label, input {
+  color: #940909ff;
+  padding-left: 4vw;
+}
+
+li, form {
+  padding-top: 0.5vh;
+  padding-bottom: 1vh;
+}

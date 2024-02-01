@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 import boto3
-from botocore.exceptions import ClientError
+# from botocore.exceptions import ClientError # TODO: will we need this?
 
 
 # load environment variables from .env file
@@ -50,8 +50,14 @@ photos_metadata_colname_conversions = {
 }
 
 
-
 def upload_to_s3(file, filename):
+    """
+    INPUT: Takes a file and its name.
+
+    FUNCTION: Uploads the file to bucket in S3.
+
+    OUTPUT: none
+    """
 
     print('In upload_to_s3 function')
 

@@ -46,3 +46,5 @@ Wed, Jan 31, 2024
     6. TODO: think about how to search for photo based on a given query (when was the photo taken, author of photo, aperture of photo, just search queries based on metadata/exif data)
 
 
+some changes to make soon:
+- 

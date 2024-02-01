@@ -37,7 +37,6 @@ app.config['SQLALCHEMY_ECHO'] = False
 connect_db(app)
 
 from flask_debugtoolbar import DebugToolbarExtension
-
 debug = DebugToolbarExtension(app)
 
 
@@ -52,14 +51,13 @@ s3 = boto3.client(
 
 @app.route('/', methods=['GET'])
 def homepage():
-    """Show homepage"""
+    """Gets all photo_urls from s3 bucket and shows them on homepage."""
 
     print("in homepage route")
 
     # Source: https://stackoverflow.com/questions/44238525/how-to-iterate-over-files-in-an-s3-bucket
     paginator = s3.get_paginator('list_objects_v2')
     page_iterator = paginator.paginate(Bucket=BUCKET_NAME)
-
 
     photos_urls = []
 
@@ -75,6 +73,24 @@ def homepage():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_photo():
+    """
+    This route grabs metadata from photo upload and then uploads the photo to
+    the database.
+
+    The GET route shows upload form and POST route processes form submission.
+
+    While processing submission, gets file and grabs the metadata with the
+    exifread library. Translates the EXIF data names from photo to corresponding
+    column names in database.
+
+    Also generates key in metadata for the file's name.
+
+    Sends metadata in to create another Photo instance in the database with
+    the appropriate metadata extracted from the photo upload. Then, resets
+    cursor in process of reading document and calls function to upload the
+    photo to the database.
+    """
+
     if request.method == 'POST':
         file = request.files['photo']
         # after receiving valid photo file from form, we get a 'FileStorage'
@@ -90,7 +106,10 @@ def upload_photo():
             metadata_tags["filename"] = filename
 
             for key, value in tags.items():
-                if key not in metadata_tags and key in photos_metadata_colname_conversions:
+                if (
+                    (key not in metadata_tags) and
+                    (key in photos_metadata_colname_conversions)
+                ):
                     conversion = photos_metadata_colname_conversions[key]
                     metadata_tags[conversion] = str(value)
 
