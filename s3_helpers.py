@@ -22,6 +22,35 @@ print('This is bucket name', BUCKET_NAME)
 
 
 
+photos_metadata_colname_conversions = {
+    "Image Make": "make",
+    "Image Model": "model",
+    "Image Orientation": "orientation_rotation",
+    "Image Software": "software",
+    "Image DateTime": "date_and_time",
+    "Image YCbCrPositioning": "ycbcr_positioning",
+    "Image XResolution": "x_resolution",
+    "Image YResolution": "y_resolution",
+    "Image ResolutionUnit": "resolution_unit",
+    "EXIF ExposureTime": "exposure_time",
+    "EXIF FNumber": "f_number",
+    "EXIF ExposureProgram": "exposure_program",
+    "EXIF ExifVersion": "exif_version",
+    "EXIF DateTimeOriginal": "date_and_time_original",
+    "EXIF DateTimeDigitized": "date_and_time_digitized",
+    "EXIF ComponentsConfiguration": "components_configuration",
+    "EXIF ExposureBiasValue": "exposure_bias",
+    "EXIF MeteringMode": "metering_mode",
+    "EXIF Flash": "flash",
+    "EXIF FocalLength": "focal_length",
+    "EXIF UserComment": "maker_note",
+    "EXIF FlashPixVersion": "flashpix_version",
+    "EXIF ColorSpace": "color_space",
+    "Interoperability InteroperabilityIndex": "interoperability_index",
+    "Interoperability InteroperabilityVersion": "interoperability_version"
+}
+
+
 
 def upload_to_s3(file, filename):
     print('In upload fn')
