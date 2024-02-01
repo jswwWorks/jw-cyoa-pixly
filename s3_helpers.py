@@ -16,10 +16,9 @@ SECRET_KEY = os.environ['secret_key']
 LOCAL_FILE = 'test_file.txt'
 NAME_FOR_S3 = 'test_file.txt'
 
-print('This is region code', REGION_CODE)
-print('This is secret key', SECRET_KEY)
-print('This is bucket name', BUCKET_NAME)
-
+# print('This is region code', REGION_CODE)
+# print('This is secret key', SECRET_KEY)
+# print('This is bucket name', BUCKET_NAME)
 
 
 photos_metadata_colname_conversions = {
@@ -53,7 +52,8 @@ photos_metadata_colname_conversions = {
 
 
 def upload_to_s3(file, filename):
-    print('In upload fn')
+
+    print('In upload_to_s3 function')
 
     s3_client = boto3.client(
         service_name='s3',
@@ -75,5 +75,7 @@ def upload_to_s3(file, filename):
 
 
 
+# TODO: can we delete this fn? I'm assuming we don't need it but I'm leaving
+# it just in case
 def view_photos_from_s3():
     print('In view_photos_from_s3')

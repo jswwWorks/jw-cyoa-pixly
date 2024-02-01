@@ -19,10 +19,12 @@ from flask_uploads import UploadSet, configure_uploads, IMAGES
 import exifread
 
 from models import (
-    photos_metadata_colname_conversions,
     Photo,
-    connect_db,
-    numeric_cols
+    connect_db
+)
+
+from s3_helpers import (
+    photos_metadata_colname_conversions
 )
 
 app = Flask(__name__)
