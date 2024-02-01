@@ -53,8 +53,6 @@ s3 = boto3.client(
 def homepage():
     """Gets all photo_urls from s3 bucket and shows them on homepage."""
 
-    print("in homepage route")
-
     # Source: https://stackoverflow.com/questions/44238525/how-to-iterate-over-files-in-an-s3-bucket
     paginator = s3.get_paginator('list_objects_v2')
     page_iterator = paginator.paginate(Bucket=BUCKET_NAME)
