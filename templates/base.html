@@ -13,9 +13,13 @@
 </head>
 
 <body>
-  <div class="header-box">
-    <h1>Welcome to Pix.ly!</h1>
-  </div>
+  <a href="/">
+    <div class="header-box">
+      <h1>Welcome to Pix.ly! 📷</h1>
+    </div>
+  </a>
+
+  {% if onHomepage %}
   <div class="site-overview">
     <!-- <TODO: would it be too hard to make this list homepage-specific? -->
     <p>At Pix.ly, you can do all sorts of things! You can:</p>
@@ -27,6 +31,7 @@
       <li>Click on images to see all of their EXIF data</li>
     </ul>
   </div>
+  {% endif %}
 
   <div class="variable-content">
     {% block content %}
