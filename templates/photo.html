@@ -8,8 +8,8 @@
   <form action="{{ url_for('homepage') }}" method="GET">
     <button type="submit">Return to Home</button>
   </form>
-
-    <button id="resize-img" data-filename="{{ photo.filename }}">resize image</button>
+    <h2>Currently showing: {{ photo.filename }}</h2>
+    <button id="resize-img" data-filename="{{ photo.filename }}">Resize Image</button>
 
   <div>
     <img src="{{ photo_url }}" alt="{{ photo.alt_tag }}" class="img-display" />

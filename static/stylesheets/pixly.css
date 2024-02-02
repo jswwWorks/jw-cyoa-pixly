@@ -12,13 +12,14 @@
 
 body {
   background-color: #fcf3f3ff;
-  margin-left: 10vw;
+  /* margin-left: 10vw; */
   margin-top: 6vw;
   font-family: 'Montserrat', sans-serif;
 }
 
 .header-box {
   background-color: #f7d5d5ff;
+  margin-left: 10vw;
   height: 13vh;
   margin-right: 20vw;
   /* border-radius: 30%; */
@@ -71,10 +72,22 @@ button {
 .site-overview, h2, label, input {
   color: #940909ff;
   padding-left: 4vw;
+  margin-left: 10vw;
   /* animation: slideIn 1s ease; */
 }
 
 li, form {
   padding-top: 0.5vh;
   padding-bottom: 1vh;
+}
+
+hr {
+  border-top: 4px solid #f7d5d5ff;
+  border-radius: 10px;
+  width: 85vw;
+  margin: auto;
+}
+
+.variable-content {
+  margin-left: 10vw;
 }

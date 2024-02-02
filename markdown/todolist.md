@@ -68,3 +68,32 @@ TODO: 2. make links to photos to bring them to their own page to see their metad
 TODO: 3. make button to return to homepage on single photo page
 TODO: 3.5 recongifure base.html and put appropriate non-base.html templates elsewhere
 TODO: 4. on editing photo, redirect to homepage?
+
+
+
+
+- CSS Goals for tonight
+
+- base.html: fix spacing for inputs
+    - specifically, I want the inputs to be slightly farther apart
+    - and for category, search term, and search button to be more grouped together
+    - and for the "click here to add photo" button to be much farther apart
+
+- upload page (form.html)
+    - fix placeholder formatting (padded left currently)
+    - reformat hr to extend evenly on both sides & give it some color and detailing
+    - clean up alignment of form elements
+
+
+- photo page
+    - same hr styling from upload page hr styling
+    - move return to home button somewhere better
+    - add a bit of padding between the image and the resize image button
+
+
+
+
+
+- cutesy idea: add a photo icon into h1? is that easily accomplishable? unsure (this is definitely a nice-to-have)
+
+- another nice-to-have: put list of uses for website on homepage ONLY
