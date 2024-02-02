@@ -121,8 +121,8 @@ def view_photos_from_s3():
                 filename = file["Key"]
                 photo_url = f'{base_aws_url}/{filename}'
                 photo_instance = Photo.query.filter_by(filename=filename).one_or_none() # TRY
-                print("LOOK HERE", type(photo_instance))
-                print("this is our photo_instance", photo_instance)
+                # print("LOOK HERE", type(photo_instance))
+                # print("this is our photo_instance", photo_instance)
                 alt_tag = photo_instance.alt_tag
 
 
@@ -134,9 +134,9 @@ def view_photos_from_s3():
                     )
                 )
 
-                print("this is our alt tag", alt_tag)
+                # print("this is our alt tag", alt_tag)
 
-    print('This is zipped items: ', photo_urls_alt_tags_filename)
+    # print('This is zipped items: ', photo_urls_alt_tags_filename)
 
     return photo_urls_alt_tags_filename
 
@@ -181,8 +181,10 @@ def edit_photo_and_save_to_s3(filename):
 
     file_obj_edited = BytesIO()
 
+    # FIXME: can only resize JPEG files currently, breaks on PNG files
     edited_image.save(file_obj_edited, format="JPEG")
 
+    # This NEEDS to be here or else photo breaks
     file_obj_edited.seek(0)
 
     s3.upload_fileobj(file_obj_edited, BUCKET_NAME, filename)
