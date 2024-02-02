@@ -80,16 +80,22 @@ button:hover {
   max-height: 400px;
 }
 
-.site-overview, h2, label, input {
+.site-overview {
   color: #940909ff;
   padding-left: 4vw;
   margin-left: 10vw;
   /* animation: slideIn 1s ease; */
 }
 
+h2 {
+  color: #940909ff;
+  /* animation: slideIn 1s ease; */
+}
+
 li, form {
   padding-top: 0.5vh;
   padding-bottom: 1vh;
+  list-style-type: circle;
 }
 
 hr {
@@ -101,4 +107,49 @@ hr {
 
 .variable-content {
   margin-left: 10vw;
+}
+
+#resize-img {
+  margin-bottom: 2vh;
+  margin-top: 4vh;
+}
+
+#return-from-img {
+  margin-left: 5vw;
+  margin-top: 2vh;
+}
+
+label, input {
+  margin-right: 2vw;
+  margin-bottom: 2vh;
+  margin-top: 2vh;
+  color: #940909ff;
+}
+
+#upload-btn {
+margin-top: 6vh;
+}
+
+
+input::file-selector-button {
+  background-color: #940909ff;
+  color: #fcf3f3ff;
+  box-shadow: 4px 4px #f7d5d5ff;
+  font-family: 'Montserrat', sans-serif;
+  border-color: #940909ff;
+  font-size: 14px;
+  margin-right: 2vw;
+}
+
+#file-selector {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.photo-details {
+  background-color: #f7d5d5ff;
+  margin-top: 2vh;
+  padding: 1% 4% 1% 4%;
+  margin-bottom: 3vh;
+  width: 350px;
+  color: rgb(84, 8, 37);
 }

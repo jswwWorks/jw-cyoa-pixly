@@ -4,9 +4,9 @@
 
 <!-- dynamically set select values idea: -->
 <div class="images-searchbar">
-  <form action="{{ url_for('homepage') }}" method="POST">
+  <form action="{{ url_for('homepage') }}" method="POST" id="search-form">
     <div>
-      <label for="search-category">Category: </label>
+      <label for="search-category">Pick a Category: </label>
       <select id="search-category" name="search-category" required aria-label="form-label-type">
         {% for col_name in col_names %}
         <option value="{{ col_name }}">{{ col_name }}</option>
@@ -23,7 +23,7 @@
   </form>
 </div>
 
-<form action="/upload" method="GET">
+<form action="/upload" method="GET" id="upload-btn">
   <button type="submit">Click Here to Add Photo</button>
 </form>
 

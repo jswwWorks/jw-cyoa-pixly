@@ -4,23 +4,25 @@
 {% block content %}
 <div>
 
-  <form action="{{ url_for('homepage') }}" method="GET">
-    <button type="submit">Return to Home</button>
-  </form>
-    <h2>Currently showing: {{ photo.filename }}</h2>
-    <button id="resize-img" data-filename="{{ photo.filename }}">Resize Image</button>
-
+  <h2>Currently showing: {{ photo.filename }}</h2>
   <div>
     <img src="{{ photo_url }}" alt="{{ photo.alt_tag }}" class="img-display" />
   </div>
 
-  <h3>Image properties:</h3>
-  <ul>
-    {% for (col, col_val) in photo_metadata %}
-    <li>{{ col }}: {{ col_val }}</li>
-    {% endfor %}
-  </ul>
-  <hr></hr>
+  <button id="resize-img" data-filename="{{ photo.filename }}">Resize Image</button>
 
+  <div class="photo-details">
+    <h3>Image properties:</h3>
+    <ul>
+      {% for (col, col_val) in photo_metadata %}
+      <li>{{ col }}: {{ col_val }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <hr></hr>
+  <form action="{{ url_for('homepage') }}" method="GET">
+    <button id="return-from-img" type="submit">Return to Home</button>
+  </form>
 </div>
 {% endblock %}
