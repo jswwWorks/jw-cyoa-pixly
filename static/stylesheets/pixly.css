@@ -38,6 +38,10 @@ h1 {
   font-size: 45px;
 }
 
+a {
+  text-decoration: none;
+}
+
 .image-gallery-header {
   background-color: #940909ff;
   color: #fcf3f3ff;
@@ -139,6 +143,21 @@ input::file-selector-button {
   border-color: #940909ff;
   font-size: 14px;
   margin-right: 2vw;
+  transition: background-color 0.33s ease;
+}
+
+input::file-selector-button:hover {
+  color: rgb(255, 255, 255);
+  background-color: rgb(84, 8, 37);
+}
+
+::placeholder, select, .alert {
+  color: rgb(84, 8, 37);
+  opacity: 1;
+}
+
+.alert {
+  margin-bottom: 2vh;
 }
 
 #file-selector {
