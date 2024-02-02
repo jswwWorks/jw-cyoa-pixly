@@ -15,7 +15,7 @@
 
       <div>
         <label for="search-term">Search Term: </label>
-        <input id="search-term" name="search-term" required />
+        <input id="search-term" name="search-term" placeholder="search term" />
       </div>
       <button type="submit">Search</button>
 
@@ -34,8 +34,12 @@
 
   <!-- flash messages populated here -->
   {% for category, message in get_flashed_messages(with_categories=True) %}
-  <div class="alert alert-{{ category }}">{{ message }}</div>
+  <div class="alert alert-{{ category }}">{{ message }}
+  </div>
+  <hr>
   {% endfor %}
+
+  <br>
 
   <div id="images-area">
     {% for (photo_url, alt_tag, filename) in photo_urls_alt_tags_filename %}
