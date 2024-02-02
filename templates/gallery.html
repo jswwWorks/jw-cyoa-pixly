@@ -37,14 +37,16 @@
   <div class="alert alert-{{ category }}">{{ message }}</div>
   {% endfor %}
 
-
-  {% for (photo_url, alt_tag, filename) in photo_urls_alt_tags_filename %}
-  <div>
-    <a href="/photos/{{ filename }}">
-      <img src="{{ photo_url }}" alt="{{ alt_tag }}" class="img-display" />
-    </a>
+  <div id="images-area">
+    {% for (photo_url, alt_tag, filename) in photo_urls_alt_tags_filename %}
+    <div>
+      <a href="/photos/{{ filename }}">
+        <img src="{{ photo_url }}" alt="{{ alt_tag }}" class="img-display" />
+      </a>
+    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
+
 
 </div>
 
