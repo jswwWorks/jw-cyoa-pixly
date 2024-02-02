@@ -93,6 +93,8 @@ def homepage():
     # print('searchCategory: ', search_category)
     # print('searchTerm: ', search_term)
 
+    # Source for filter:
+    # https://stackoverflow.com/questions/10251724/how-to-give-column-name-dynamically-from-string-variable-in-sql-alchemy-filter
     photos_data = Photo.query.filter(
         getattr(Photo, search_category).ilike(f"%{search_term}%")).all()
 

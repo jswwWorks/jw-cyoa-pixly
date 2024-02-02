@@ -108,10 +108,10 @@ have yet to do:
 
 - make the header box a button that returns to homepage as well
 Friday | Feb 2, 2024
-1. handle merge conflicts in main repo DONE!
+1. handle merge conflicts in main repo -- DONE!
 2. TODO: *after submitting a search term in form, the search category should still be the same from the previous search NOPE, do it later
-3. TODO: *CSS nice-to-haves
-4. TODO: deploy to render
-5. TODO: work on lightning talk/presentation
-6. TODO: ******** add a second photo filter
-7. TODO: Keep Pixly app description only on base.html
+3. TODO: *CSS nice-to-haves -- DONE!
+4. TODO: **deploy to render**
+5. TODO: **work on lightning talk/presentation**
+6. TODO: ******** **add a second photo filter**
+7. TODO: Keep Pixly app description only on base.html -- DONE!
