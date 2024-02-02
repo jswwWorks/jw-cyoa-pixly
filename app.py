@@ -15,7 +15,7 @@ AWS_SECRET_ACCESS_KEY = os.environ['aws_secret_access_key']
 BUCKET_NAME = os.environ['bucket_name']
 REGION_CODE = os.environ['region_code']
 
-from flask import Flask, request, render_template, flash, redirect
+from flask import Flask, request, render_template, flash, redirect, jsonify, url_for
 import exifread
 
 from models import (
@@ -28,6 +28,7 @@ from s3_helpers import (
     upload_to_s3,
     view_photos_from_s3,
     view_filtered_photos_from_s3,
+    edit_photo_and_save_to_s3,
     col_names
 )
 
@@ -122,7 +123,7 @@ def get_single_photo(filename):
     if request.method == 'GET':
 
         # FIXME: this is breaking
-        photo = Photo.query.filter_by(filename=f'{filename}').one_or_none()
+        photo = Photo.query.filter_by(filename=filename).one_or_none()
 
         photo_metadata = []
         for col in col_names:
@@ -185,7 +186,8 @@ def upload_photo():
             try:
                 new_photo_in_db = Photo.submit_photo(metadata_tags)
             except IntegrityError:
-                flash("Could not add to database")
+                # FIXME: edited flash message
+                flash("Could not add to database (filename already exists)")
                 return redirect('/')
 
             print('new_photo_in_db: ', new_photo_in_db)
@@ -197,3 +199,23 @@ def upload_photo():
             return redirect('/')
 
     return render_template('form.html')
+
+
+@app.route('/resize_image', methods=['GET', 'POST'])
+def resize_image():
+    """Resizes image"""
+
+    data = request.get_json()
+    print('This is data: ', data)
+
+    filename = data.get("filename")
+
+    print('This is photo_url: ', filename)
+
+    try:
+        edit_photo_and_save_to_s3(filename)
+    except IntegrityError:
+        flash('Could not edit and save photo')
+
+    # return redirect(url_for('get_single_photo'))
+    return jsonify({'result': 'image resized successfully!'})

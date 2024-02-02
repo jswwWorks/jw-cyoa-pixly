@@ -2,6 +2,8 @@ BUG LOG:
 1. flask run bug w/ env variables
 2. retrieving exif data that one would assume to be entirely numerical but is a different type (and converting it to a string makes it appear 'normal')
 3. order of operations with file operations (attempted to retrieve EXIF data which caused I/O issues)
+FIXME: added bug from Thurs w/ Joel's help
+4. Python has attributes in dot notation, which means you can't get dicionary values using dot notation
 
 
 sqlalchemy.exc.DataError: (psycopg2.errors.StringDataRightTruncation) value too long for type character varying(30)

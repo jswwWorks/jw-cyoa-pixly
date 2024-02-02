@@ -3,11 +3,13 @@
 
 {% block content %}
 <div>
-  <h1>We got to photo.html</h1>
+  <!-- FIXME: removed h1 "We got to photo.html" -->
 
   <form action="{{ url_for('homepage') }}" method="GET">
     <button type="submit">Return to Home</button>
   </form>
+
+    <button id="resize-img" data-filename="{{ photo.filename }}">resize image</button>
 
   <div>
     <img src="{{ photo_url }}" alt="{{ photo.alt_tag }}" class="img-display" />

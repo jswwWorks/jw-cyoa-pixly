@@ -4,6 +4,9 @@ import boto3
 import botocore
 from models import Photo
 
+from PIL import Image
+from io import BytesIO
+
 
 # load environment variables from .env file
 load_dotenv()
@@ -117,7 +120,7 @@ def view_photos_from_s3():
             for file in page['Contents']:
                 filename = file["Key"]
                 photo_url = f'{base_aws_url}/{filename}'
-                photo_instance = Photo.query.filter_by(filename=f'{filename}').one_or_none() # TRY
+                photo_instance = Photo.query.filter_by(filename=filename).one_or_none() # TRY
                 print("LOOK HERE", type(photo_instance))
                 print("this is our photo_instance", photo_instance)
                 alt_tag = photo_instance.alt_tag
@@ -149,7 +152,8 @@ def view_filtered_photos_from_s3(filenames):
     for file_name in filenames:
         photo_url = f'{base_aws_url}/{file_name}'
 
-        photo_instance = Photo.query.filter_by(filename=f'{file_name}').one_or_none()
+        # FIXME: removed unnecessary f strings (check elsewhere after this one)
+        photo_instance = Photo.query.filter_by(filename=file_name).one_or_none()
         # TODO: ^ consolidate this repeated pattern into a separate helper fn
 
         alt_tag = photo_instance.alt_tag
@@ -159,6 +163,29 @@ def view_filtered_photos_from_s3(filenames):
     return photo_urls_alt_tags_filename
 
 
+
+def edit_photo_and_save_to_s3(filename):
+    """Downloads file from S3, makes photo edits, and saves file back to S3"""
+
+    print('Inside edit_photo_and_save_to_s3')
+
+    file_obj = BytesIO()
+
+    s3.download_fileobj(BUCKET_NAME, filename, file_obj)
+
+    file_obj.seek(0)
+
+    image_to_be_edited = Image.open(file_obj)
+
+    edited_image = image_to_be_edited.resize((300, 300))
+
+    file_obj_edited = BytesIO()
+
+    edited_image.save(file_obj_edited, format="JPEG")
+
+    file_obj_edited.seek(0)
+
+    s3.upload_fileobj(file_obj_edited, BUCKET_NAME, filename)
 
 
 
