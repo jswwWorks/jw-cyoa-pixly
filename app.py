@@ -70,6 +70,8 @@ def homepage():
 
     # print('Top of homepage route')
 
+    onHomepage = True
+
     photo_urls_alt_tags_filename = []
 
     if request.method == 'GET':
@@ -82,7 +84,8 @@ def homepage():
         return render_template(
             'gallery.html',
             col_names=col_names,
-            photo_urls_alt_tags_filename=photo_urls_alt_tags_filename
+            photo_urls_alt_tags_filename=photo_urls_alt_tags_filename,
+            onHomepage=onHomepage
         )
 
     search_category = request.form['search-category']
