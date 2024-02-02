@@ -51,8 +51,14 @@ h1 {
   box-shadow: 8px 8px #f7d5d5ff;
   font-size: 18px;
   /* animation: slideIn 1s ease; */
-
 }
+
+#images-area {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 
 button {
   background-color: #940909ff;
@@ -61,6 +67,11 @@ button {
   font-family: 'Montserrat', sans-serif;
   border-color: #940909ff;
   font-size: 16px;
+  transition: background-color 0.33s ease;
+}
+
+button:hover {
+  background-color: rgb(84, 8, 37);
 }
 
 .img-display {
