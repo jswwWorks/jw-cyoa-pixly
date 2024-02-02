@@ -163,6 +163,9 @@ class Photo(db.Model):
         nullable=False
     )
 
+    def __repr__(self):
+        return f"<{self.__class__.__name__} self.filename={self.filename}>"
+
     @classmethod
     def submit_photo(self, metadata_tags):
         """

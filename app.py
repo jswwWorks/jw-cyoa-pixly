@@ -94,8 +94,6 @@ def homepage():
         photo_filename = photo.filename
         filenames.append(photo_filename)
 
-    print('This is filenames: ', filenames)
-
     photo_urls_alt_tags_filename = view_filtered_photos_from_s3(filenames)
     flash(f'Showing results for {search_term}')
 
@@ -114,21 +112,28 @@ def get_single_photo(filename):
 
     Can make edits on photo (<-- figure this out later)
     """
+    print('get_single_photo filename: ', filename)
+
 
     if request.method == 'GET':
 
+        # FIXME: this is breaking
         photo = Photo.query.filter_by(filename=f'{filename}').one_or_none()
+        print("our new photo!!!", photo)
+        print('This is photo.filename: ', photo.filename)
 
-        print("our photo", photo, photo.model)
+        print('this is filename_test')
+
+
+
         photo_metadata = []
-        print(type(Photo.query.filter_by(filename=f'{filename}').one_or_none()))
 
         # TODO: assemble an
         # for col in col_names:
         #     print(col, "!!!!!!!!!!!!!!!!!!!!!!!!!")
         #     photo_metadata.append(photo.get(f"{col}"))
 
-        # print("this is metadata", photo_metadata)
+        print("this is metadata", photo_metadata)
 
         base_aws_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com'
         photo_url = f'{base_aws_url}/{photo.filename}'
@@ -137,7 +142,7 @@ def get_single_photo(filename):
             'photo.html',
             photo=photo,
             photo_url=photo_url,
-            # photo_metadata=photo_metadata
+            photo_metadata=photo_metadata
         )
 
 

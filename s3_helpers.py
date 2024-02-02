@@ -141,12 +141,29 @@ def view_filtered_photos_from_s3(filenames):
     # paginator = s3.get_paginator('list_objects_v2')
     # page_iterator = paginator.paginate(Bucket=BUCKET_NAME)
 
-    photos_urls = []
+    photo_urls_alt_tags_filename = []
 
     base_aws_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com'
 
     for file_name in filenames:
         photo_url = f'{base_aws_url}/{file_name}'
-        photos_urls.append(photo_url)
 
-    return photos_urls
+        photo_instance = Photo.query.filter_by(filename=f'{file_name}').one_or_none()
+        # TODO: ^ consolidate this repeated pattern into a separate helper fn
+
+        alt_tag = photo_instance.alt_tag
+
+        photo_urls_alt_tags_filename.append((photo_url, alt_tag, file_name))
+
+    return photo_urls_alt_tags_filename
+
+
+
+
+
+getattr(o,"age",0)
+# obj, key, value if not found
+
+nums = [1, 2]
+
+nums.get(0)
