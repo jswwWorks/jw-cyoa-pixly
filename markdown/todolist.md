@@ -107,3 +107,11 @@ have yet to do:
 - another nice-to-have: put list of uses for website on homepage ONLY
 
 - make the header box a button that returns to homepage as well
+Friday | Feb 2, 2024
+1. TODO: handle merge conflicts in main repo
+2. TODO: *after submitting a search term in form, the search category should still be the same from the previous search
+3. TODO: *CSS nice-to-haves
+4. TODO: deploy to render
+5. TODO: work on lightning talk/presentation
+6. TODO: ******** add a second photo filter
+7. TODO: Keep Pixly app description only on base.html
