@@ -27,11 +27,6 @@
   {% block content %}
   {% endblock %}
 
-  <!-- flash messages populated here -->
-  {% for category, message in get_flashed_messages(with_categories=True) %}
-  <div class="alert alert-{{ category }}">{{ message }}</div>
-  {% endfor %}
-
 </body>
 
 </html>

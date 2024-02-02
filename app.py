@@ -6,6 +6,7 @@ load_dotenv()
 
 import boto3
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.exc import IntegrityError, MultipleResultsFound
 
 db = SQLAlchemy()
 
@@ -71,7 +72,10 @@ def homepage():
     photo_urls_alt_tags_filename = []
 
     if request.method == 'GET':
-        photo_urls_alt_tags_filename = view_photos_from_s3()
+        try:
+            photo_urls_alt_tags_filename = view_photos_from_s3()
+        except IntegrityError:
+            flash("Already added to database")
 
         print('This is zipped items in app: ', photo_urls_alt_tags_filename)
         return render_template(
@@ -119,21 +123,11 @@ def get_single_photo(filename):
 
         # FIXME: this is breaking
         photo = Photo.query.filter_by(filename=f'{filename}').one_or_none()
-        print("our new photo!!!", photo)
-        print('This is photo.filename: ', photo.filename)
-
-        print('this is filename_test')
-
-
 
         photo_metadata = []
-
-        # TODO: assemble an
-        # for col in col_names:
-        #     print(col, "!!!!!!!!!!!!!!!!!!!!!!!!!")
-        #     photo_metadata.append(photo.get(f"{col}"))
-
-        print("this is metadata", photo_metadata)
+        for col in col_names:
+            col_val = getattr(photo, col, "none provided")
+            photo_metadata.append((col, col_val))
 
         base_aws_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com'
         photo_url = f'{base_aws_url}/{photo.filename}'
@@ -169,7 +163,7 @@ def upload_photo():
     if request.method == 'POST':
         file = request.files['photo']
         alt_tag = request.form['alt-tag']
-        print("new alt tag,", alt_tag)
+        print("NEW ALT TAG!!!,", alt_tag)
         # after receiving valid photo file from form, we get a 'FileStorage'
         # object w/ methods and properties on it, most importantly, 'filename'.
         if file:
@@ -188,14 +182,18 @@ def upload_photo():
                     conversion = photos_metadata_colname_conversions[key]
                     metadata_tags[conversion] = str(value)
 
-            new_photo_in_db = Photo.submit_photo(metadata_tags)
-            print('new_photo_in_db: ', new_photo_in_db)
+            try:
+                new_photo_in_db = Photo.submit_photo(metadata_tags)
+            except IntegrityError:
+                flash("Could not add to database")
+                return redirect('/')
 
+            print('new_photo_in_db: ', new_photo_in_db)
             # puts cursor back to the beginning of the file
             file.seek(0)
-
             upload_to_s3(file, filename)
-            # ^ this closes file
             flash('File uploaded successfully!')
+            # ^ this closes file
             return redirect('/')
+
     return render_template('form.html')

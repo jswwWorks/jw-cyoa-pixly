@@ -1,6 +1,6 @@
 CREATE TABLE photos_metadata (
     id SERIAL PRIMARY KEY,
-    filename VARCHAR(150),
+    filename VARCHAR(150) UNIQUE,
     make VARCHAR(60),
     model VARCHAR(60),
     orientation_rotation VARCHAR(30),

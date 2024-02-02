@@ -5,14 +5,21 @@
 <div>
   <h1>We got to photo.html</h1>
 
+  <form action="{{ url_for('homepage') }}" method="GET">
+    <button type="submit">Return to Home</button>
+  </form>
+
   <div>
     <img src="{{ photo_url }}" alt="{{ photo.alt_tag }}" class="img-display" />
   </div>
 
-  <!-- <h3>Image properties:</h3>
-  % for datum in photo_metadata %
-  <p> datum </p> FIXME: add back curly brackets
-  <hr></hr> -->
+  <h3>Image properties:</h3>
+  <ul>
+    {% for (col, col_val) in photo_metadata %}
+    <li>{{ col }}: {{ col_val }}</li>
+    {% endfor %}
+  </ul>
+  <hr></hr>
 
 </div>
 {% endblock %}

@@ -122,6 +122,7 @@ def view_photos_from_s3():
                 print("this is our photo_instance", photo_instance)
                 alt_tag = photo_instance.alt_tag
 
+
                 photo_urls_alt_tags_filename.append(
                     (
                         photo_url,
@@ -161,9 +162,9 @@ def view_filtered_photos_from_s3(filenames):
 
 
 
-getattr(o,"age",0)
-# obj, key, value if not found
+# getattr(o,"age",0)
+# # obj, key, value if not found
 
-nums = [1, 2]
+# nums = [1, 2]
 
-nums.get(0)
+# nums.get(0)

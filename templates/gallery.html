@@ -6,7 +6,8 @@
 <div class="images-searchbar">
   <form action="{{ url_for('homepage') }}" method="POST">
     <div>
-      <select name="search-category" required aria-label="form-label-type">
+      <label for="search-category">Category: </label>
+      <select id="search-category" name="search-category" required aria-label="form-label-type">
         {% for col_name in col_names %}
         <option value="{{ col_name }}">{{ col_name }}</option>
         {% endfor %}
@@ -22,10 +23,20 @@
   </form>
 </div>
 
+<form action="/upload" method="GET">
+  <button type="submit">Click Here to Add Photo</button>
+</form>
+
 <div class="image-storage">
   <div class="image-gallery-header">
     <p>Our Image Gallery</p>
   </div>
+
+  <!-- flash messages populated here -->
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+  <div class="alert alert-{{ category }}">{{ message }}</div>
+  {% endfor %}
+
 
   {% for (photo_url, alt_tag, filename) in photo_urls_alt_tags_filename %}
   <div>
