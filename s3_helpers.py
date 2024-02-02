@@ -152,7 +152,6 @@ def view_filtered_photos_from_s3(filenames):
     for file_name in filenames:
         photo_url = f'{base_aws_url}/{file_name}'
 
-        # FIXME: removed unnecessary f strings (check elsewhere after this one)
         photo_instance = Photo.query.filter_by(filename=file_name).one_or_none()
         # TODO: ^ consolidate this repeated pattern into a separate helper fn
 
@@ -188,12 +187,3 @@ def edit_photo_and_save_to_s3(filename):
     file_obj_edited.seek(0)
 
     s3.upload_fileobj(file_obj_edited, BUCKET_NAME, filename)
-
-
-
-# getattr(o,"age",0)
-# # obj, key, value if not found
-
-# nums = [1, 2]
-
-# nums.get(0)

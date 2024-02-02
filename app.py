@@ -122,7 +122,7 @@ def get_single_photo(filename):
 
     if request.method == 'GET':
 
-        # FIXME: this is breaking
+        # FIXME: this is no longer breaking w/ Joel's help
         photo = Photo.query.filter_by(filename=filename).one_or_none()
 
         photo_metadata = []
