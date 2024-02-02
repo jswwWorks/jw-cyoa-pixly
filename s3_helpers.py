@@ -108,11 +108,9 @@ def view_photos_from_s3():
     paginator = s3.get_paginator('list_objects_v2')
     page_iterator = paginator.paginate(Bucket=BUCKET_NAME)
 
-    photos_urls_and_alt_tags = {}
-
     base_aws_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com'
 
-    zipped_items = []
+    photo_urls_alt_tags_filename = []
 
     for page in page_iterator:
         if page['KeyCount'] > 0:
@@ -120,17 +118,23 @@ def view_photos_from_s3():
                 filename = file["Key"]
                 photo_url = f'{base_aws_url}/{filename}'
                 photo_instance = Photo.query.filter_by(filename=f'{filename}').one_or_none() # TRY
+                print("LOOK HERE", type(photo_instance))
                 print("this is our photo_instance", photo_instance)
                 alt_tag = photo_instance.alt_tag
 
-                zipped_items.append((photo_url, alt_tag, filename))
+                photo_urls_alt_tags_filename.append(
+                    (
+                        photo_url,
+                        alt_tag,
+                        filename
+                    )
+                )
 
                 print("this is our alt tag", alt_tag)
-                photos_urls_and_alt_tags[photo_url] = alt_tag
 
-    print('This is zipped items: ', zipped_items)
+    print('This is zipped items: ', photo_urls_alt_tags_filename)
 
-    return (photos_urls_and_alt_tags, zipped_items)
+    return photo_urls_alt_tags_filename
 
 
 def view_filtered_photos_from_s3(filenames):

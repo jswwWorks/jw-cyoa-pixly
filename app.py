@@ -68,19 +68,18 @@ def homepage():
 
     print('Top of homepage route')
 
+    photo_urls_alt_tags_filename = []
 
     if request.method == 'GET':
-        photos_urls_and_alt_tags, zipped_items = view_photos_from_s3()
+        photo_urls_alt_tags_filename = view_photos_from_s3()
 
-        print('This is zipped items in app: ', zipped_items)
+        print('This is zipped items in app: ', photo_urls_alt_tags_filename)
         return render_template(
             'gallery.html',
-            photos_urls_and_alt_tags=photos_urls_and_alt_tags,
             col_names=col_names,
-            zipped_items=zipped_items
+            photo_urls_alt_tags_filename=photo_urls_alt_tags_filename
         )
 
-    photos_urls_and_alt_tags = []
     search_category = request.form['search-category']
     search_term = request.form['search-term']
     # print('searchCategory: ', search_category)
@@ -97,12 +96,12 @@ def homepage():
 
     print('This is filenames: ', filenames)
 
-    photos_urls_and_alt_tags = view_filtered_photos_from_s3(filenames)
+    photo_urls_alt_tags_filename = view_filtered_photos_from_s3(filenames)
     flash(f'Showing results for {search_term}')
 
     return render_template(
         'gallery.html',
-        photos_urls_and_alt_tags=photos_urls_and_alt_tags,
+        photo_urls_alt_tags_filename=photo_urls_alt_tags_filename,
         col_names=col_names
     )
 
@@ -120,7 +119,26 @@ def get_single_photo(filename):
 
         photo = Photo.query.filter_by(filename=f'{filename}').one_or_none()
 
-        return render_template('photo.html', photo=photo)
+        print("our photo", photo, photo.model)
+        photo_metadata = []
+        print(type(Photo.query.filter_by(filename=f'{filename}').one_or_none()))
+
+        # TODO: assemble an
+        # for col in col_names:
+        #     print(col, "!!!!!!!!!!!!!!!!!!!!!!!!!")
+        #     photo_metadata.append(photo.get(f"{col}"))
+
+        # print("this is metadata", photo_metadata)
+
+        base_aws_url = f'https://{BUCKET_NAME}.s3.{REGION_CODE}.amazonaws.com'
+        photo_url = f'{base_aws_url}/{photo.filename}'
+
+        return render_template(
+            'photo.html',
+            photo=photo,
+            photo_url=photo_url,
+            # photo_metadata=photo_metadata
+        )
 
 
 @app.route('/upload', methods=['GET', 'POST'])

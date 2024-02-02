@@ -4,5 +4,15 @@
 {% block content %}
 <div>
   <h1>We got to photo.html</h1>
+
+  <div>
+    <img src="{{ photo_url }}" alt="{{ photo.alt_tag }}" class="img-display" />
+  </div>
+
+  <!-- <h3>Image properties:</h3>
+  % for datum in photo_metadata %
+  <p> datum </p> FIXME: add back curly brackets
+  <hr></hr> -->
+
 </div>
 {% endblock %}
