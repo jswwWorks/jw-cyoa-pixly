@@ -68,3 +68,15 @@ TODO: 2. make links to photos to bring them to their own page to see their metad
 TODO: 3. make button to return to homepage on single photo page
 TODO: 3.5 recongifure base.html and put appropriate non-base.html templates elsewhere
 TODO: 4. on editing photo, redirect to homepage?
+
+
+
+
+Friday | Feb 2, 2024
+1. TODO: handle merge conflicts in main repo
+2. TODO: *after submitting a search term in form, the search category should still be the same from the previous search
+3. TODO: *CSS nice-to-haves
+4. TODO: deploy to render
+5. TODO: work on lightning talk/presentation
+6. TODO: ******** add a second photo filter
+7. TODO: Keep Pixly app description only on base.html
