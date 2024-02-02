@@ -68,7 +68,7 @@ def homepage():
     photo(s) matching the search term.
     """
 
-    print('Top of homepage route')
+    # print('Top of homepage route')
 
     photo_urls_alt_tags_filename = []
 
@@ -78,7 +78,7 @@ def homepage():
         except IntegrityError:
             flash("Already added to database")
 
-        print('This is zipped items in app: ', photo_urls_alt_tags_filename)
+        # print('This is zipped items in app: ', photo_urls_alt_tags_filename)
         return render_template(
             'gallery.html',
             col_names=col_names,
@@ -117,7 +117,7 @@ def get_single_photo(filename):
 
     Can make edits on photo (<-- figure this out later)
     """
-    print('get_single_photo filename: ', filename)
+    # print('get_single_photo filename: ', filename)
 
 
     if request.method == 'GET':
