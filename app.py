@@ -167,41 +167,44 @@ def upload_photo():
     """
 
     if request.method == 'POST':
-        file = request.files['photo']
-        alt_tag = request.form['alt-tag']
-        print("NEW ALT TAG!!!,", alt_tag)
-        # after receiving valid photo file from form, we get a 'FileStorage'
-        # object w/ methods and properties on it, most importantly, 'filename'.
-        if file:
-            tags = exifread.process_file(file)
 
-            metadata_tags = {}
-            filename = file.filename
-            metadata_tags["filename"] = filename
-            metadata_tags["alt_tag"] = alt_tag or filename
+        print("Upload photo attempt. For now, this feature is restricted.")
 
-            for key, value in tags.items():
-                if (
-                    (key not in metadata_tags) and
-                    (key in photos_metadata_colname_conversions)
-                ):
-                    conversion = photos_metadata_colname_conversions[key]
-                    metadata_tags[conversion] = str(value)
+        # file = request.files['photo']
+        # alt_tag = request.form['alt-tag']
+        # print("NEW ALT TAG!!!,", alt_tag)
+        # # after receiving valid photo file from form, we get a 'FileStorage'
+        # # object w/ methods and properties on it, most importantly, 'filename'.
+        # if file:
+        #     tags = exifread.process_file(file)
 
-            try:
-                new_photo_in_db = Photo.submit_photo(metadata_tags)
-            except IntegrityError:
-                # FIXME: edited flash message
-                flash("Could not add to database (filename already exists)")
-                return redirect('/')
+        #     metadata_tags = {}
+        #     filename = file.filename
+        #     metadata_tags["filename"] = filename
+        #     metadata_tags["alt_tag"] = alt_tag or filename
 
-            print('new_photo_in_db: ', new_photo_in_db)
-            # puts cursor back to the beginning of the file
-            file.seek(0)
-            upload_to_s3(file, filename)
-            flash('File uploaded successfully!')
-            # ^ this closes file
-            return redirect('/')
+        #     for key, value in tags.items():
+        #         if (
+        #             (key not in metadata_tags) and
+        #             (key in photos_metadata_colname_conversions)
+        #         ):
+        #             conversion = photos_metadata_colname_conversions[key]
+        #             metadata_tags[conversion] = str(value)
+
+        #     try:
+        #         new_photo_in_db = Photo.submit_photo(metadata_tags)
+        #     except IntegrityError:
+        #         # FIXME: edited flash message
+        #         flash("Could not add to database (filename already exists)")
+        #         return redirect('/')
+
+        #     print('new_photo_in_db: ', new_photo_in_db)
+        #     # puts cursor back to the beginning of the file
+        #     file.seek(0)
+        #     upload_to_s3(file, filename)
+        #     flash('File uploaded successfully!')
+        #     # ^ this closes file
+        #     return redirect('/')
 
     return render_template('form.html')
 
