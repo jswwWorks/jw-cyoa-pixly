@@ -206,7 +206,28 @@ def upload_photo():
         #     # ^ this closes file
         #     return redirect('/')
 
-    return render_template('form.html')
+    # return render_template('form.html')
+
+    # Temporarily duplicate code to generate homepage: TODO: replace w/ feature
+    # onHomepage = True
+
+    # photo_urls_alt_tags_filename = []
+
+    # try:
+    #     photo_urls_alt_tags_filename = view_photos_from_s3()
+    # except IntegrityError:
+    #     flash("Already added to database")
+
+    # # print('This is zipped items in app: ', photo_urls_alt_tags_filename)
+    # return render_template(
+    #     'gallery.html',
+    #     col_names=col_names,
+    #     photo_urls_alt_tags_filename=photo_urls_alt_tags_filename,
+    #     onHomepage=onHomepage
+    # )
+
+    # Redirect to homepage:
+    return redirect('/')
 
 
 @app.route('/resize_image', methods=['GET', 'POST'])
